@@ -1,5 +1,5 @@
 //
-//  Details.swift
+//  DetailsView.swift
 //  COBSCCOMP4Y222P-004
 //
 //  Created by NIBM on 2024-03-21.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Details: View {
+struct DetailsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
         ZStack {
@@ -59,7 +59,7 @@ struct Details: View {
 
 struct DetailViewScreen_Previews: PreviewProvider {
     static var previews: some View {
-        Details()
+        DetailsView()
     }
 }
 
@@ -214,5 +214,5 @@ struct StepperView: View {
 
 
 #Preview {
-    Details()
+    DetailsView()
 }

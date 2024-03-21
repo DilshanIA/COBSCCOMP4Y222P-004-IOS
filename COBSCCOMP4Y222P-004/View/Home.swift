@@ -2,7 +2,7 @@
 //  Home.swift
 //  COBSCCOMP4Y222P-004
 //
-//  Created by NIBM-LAB04-PC03 on 2024-03-13.
+//  Created by NIBM on 2024-03-21.
 //
 
 import SwiftUI
@@ -16,9 +16,7 @@ struct HomeScreen: View {
     var body: some View {
         NavigationView {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.5215686275, green: 0.7529411765, blue: 0.937254902, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
-                    .ignoresSafeArea()
-
+  
                 
 
                 ScrollView (showsIndicators: false) {
@@ -273,3 +271,4 @@ struct BottomNavBarItem: View {
         }
     }
 }
+
