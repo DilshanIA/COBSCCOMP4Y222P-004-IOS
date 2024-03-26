@@ -16,9 +16,8 @@ struct MensView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.5215686275, green: 0.7529411765, blue: 0.937254902, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
+                LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.1568627451, green: 0.4, blue: 0.662745098, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
-                
 
                 ScrollView (showsIndicators: false) {
                     VStack (alignment: .leading) {
@@ -32,7 +31,8 @@ struct MensView: View {
                         OfferPhotosView()
                         .padding(.bottom)
                         
-                        
+                        LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.1568627451, green: 0.4, blue: 0.662745098, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
+                            .ignoresSafeArea()
                         Text("Casual Wear")
                             .font(.custom("PlayfairDisplay-Bold", size: 20))
                             .padding(.horizontal)
@@ -41,7 +41,7 @@ struct MensView: View {
                             HStack (spacing: 0) {
                                 ForEach(0 ..< 4) { i in
                                     NavigationLink(
-                                        destination: Details(),
+                                        destination: DetailsView(),
                                         label: {
                                             ProductCardView(image: Image("nolimitDetails"), brandName: "T-Shirt", size: 110)
                                             ProductCardView(image: Image("Shirt"), brandName: "Shirts", size: 110)
@@ -57,7 +57,8 @@ struct MensView: View {
                             }
                         }
                         .padding(.bottom)
-                        
+                        LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.1568627451, green: 0.4, blue: 0.662745098, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
+                            .ignoresSafeArea()
                         Text("Formal Wear")
                             .font(.custom("PlayfairDisplay-Bold", size: 20))
                             .padding(.horizontal)
@@ -72,6 +73,8 @@ struct MensView: View {
                             }
                         }
                         .padding(.bottom)
+                        LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.1568627451, green: 0.4, blue: 0.662745098, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
+                            .ignoresSafeArea()
                         Text("Accessories")
                             .font(.custom("PlayfairDisplay-Bold", size: 20))
                             .padding(.horizontal)
@@ -114,4 +117,16 @@ struct TagLine1View: View {
             .fontWeight(.bold)
             .foregroundColor(Color.white)
     }
+    
+    
+    struct CardModifier: ViewModifier {
+        func body(content: Content) -> some View {
+            content
+                .padding() // Add padding inside the card
+                .background(Color.white) // Set background color
+                .cornerRadius(20) // Apply rounded corners
+                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5) // Add shadow
+        }
+    }
+
 }

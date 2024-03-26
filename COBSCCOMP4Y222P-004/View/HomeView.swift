@@ -1,13 +1,13 @@
 //
-//  Home.swift
+//  HomeView.swift
 //  COBSCCOMP4Y222P-004
 //
-//  Created by NIBM on 2024-03-21.
+//  Created by NIBMPC04PC02 on 2024-03-26.
 //
 
 import SwiftUI
 
-struct HomeScreen: View {
+struct HomeView: View {
     @State private var search: String = ""
     @State private var selectedIndex: Int = 1
     
@@ -100,7 +100,7 @@ struct HomeScreen: View {
 
 struct HomeScreen_Previews: PreviewProvider {
     static var previews: some View {
-        HomeScreen()
+        HomeView()
     }
 }
 

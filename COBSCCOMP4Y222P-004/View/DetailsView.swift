@@ -2,7 +2,7 @@
 //  DetailsView.swift
 //  COBSCCOMP4Y222P-004
 //
-//  Created by NIBM on 2024-03-21.
+//  Created by NIBMPC04PC02 on 2024-03-26.
 //
 
 import SwiftUI
@@ -11,7 +11,7 @@ struct DetailsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.5215686275, green: 0.7529411765, blue: 0.937254902, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
+            LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.1568627451, green: 0.4, blue: 0.662745098, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
             Color("Bg")
             ScrollView  {
