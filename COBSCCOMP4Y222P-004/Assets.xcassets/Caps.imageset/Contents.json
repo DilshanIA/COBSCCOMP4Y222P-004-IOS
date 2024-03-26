@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "Men,_Accessories,_Caps-mobile-1686650431162.jpeg.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Men,_Accessories,_Caps-mobile-1686650431162.jpeg 1.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Men,_Accessories,_Caps-mobile-1686650431162.jpeg 2.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

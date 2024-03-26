@@ -18,6 +18,8 @@
 		90C8AAC12BA1D71C00D15AE5 /* COBSCCOMP4Y222P_004UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C8AAC02BA1D71C00D15AE5 /* COBSCCOMP4Y222P_004UITests.swift */; };
 		90C8AAC32BA1D71C00D15AE5 /* COBSCCOMP4Y222P_004UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C8AAC22BA1D71C00D15AE5 /* COBSCCOMP4Y222P_004UITestsLaunchTests.swift */; };
 		90C8AAD32BA1DA7D00D15AE5 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C8AAD22BA1DA7D00D15AE5 /* SignUp.swift */; };
+		A50589E62BB2AA2A009999FD /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50589E52BB2AA2A009999FD /* PaymentView.swift */; };
+		A50589E82BB2AA3F009999FD /* MensView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50589E72BB2AA3F009999FD /* MensView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,8 @@
 		90C8AAC02BA1D71C00D15AE5 /* COBSCCOMP4Y222P_004UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = COBSCCOMP4Y222P_004UITests.swift; sourceTree = "<group>"; };
 		90C8AAC22BA1D71C00D15AE5 /* COBSCCOMP4Y222P_004UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = COBSCCOMP4Y222P_004UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		90C8AAD22BA1DA7D00D15AE5 /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
+		A50589E52BB2AA2A009999FD /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
+		A50589E72BB2AA3F009999FD /* MensView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MensView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,13 +83,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		902438D02BA6E1E0005F5101 /* VuewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = VuewModel;
-			sourceTree = "<group>";
-		};
 		90C8AA992BA1D71A00D15AE5 = {
 			isa = PBXGroup;
 			children = (
@@ -109,7 +106,6 @@
 		90C8AAA42BA1D71A00D15AE5 /* COBSCCOMP4Y222P-004 */ = {
 			isa = PBXGroup;
 			children = (
-				902438D02BA6E1E0005F5101 /* VuewModel */,
 				90C8AACF2BA1D72B00D15AE5 /* View */,
 				90C8AAA52BA1D71A00D15AE5 /* COBSCCOMP4Y222P_004App.swift */,
 				90C8AAA72BA1D71A00D15AE5 /* ContentView.swift */,
@@ -151,6 +147,8 @@
 				0E3AC7072BAC60EB00EC0AAE /* Details.swift */,
 				0E3AC7092BAC622500EC0AAE /* CartView.swift */,
 				0E3AC70B2BAC629300EC0AAE /* Home.swift */,
+				A50589E52BB2AA2A009999FD /* PaymentView.swift */,
+				A50589E72BB2AA3F009999FD /* MensView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -288,9 +286,11 @@
 				0E3AC70A2BAC622500EC0AAE /* CartView.swift in Sources */,
 				90C8AAA82BA1D71A00D15AE5 /* ContentView.swift in Sources */,
 				0E3AC7082BAC60EB00EC0AAE /* Details.swift in Sources */,
+				A50589E62BB2AA2A009999FD /* PaymentView.swift in Sources */,
 				90C8AAD32BA1DA7D00D15AE5 /* SignUp.swift in Sources */,
 				0E3AC70C2BAC629300EC0AAE /* Home.swift in Sources */,
 				90C8AAA62BA1D71A00D15AE5 /* COBSCCOMP4Y222P_004App.swift in Sources */,
+				A50589E82BB2AA3F009999FD /* MensView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

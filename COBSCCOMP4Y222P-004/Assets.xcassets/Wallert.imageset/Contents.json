@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "Men,_Accessories,_Wallets-mobile-1686650630774.jpeg.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Men,_Accessories,_Wallets-mobile-1686650630774.jpeg 1.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Men,_Accessories,_Wallets-mobile-1686650630774.jpeg 2.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

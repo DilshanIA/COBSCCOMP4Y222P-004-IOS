@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "Men,_Accessories,_Belt-mobile-1686650395497.jpeg.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Men,_Accessories,_Belt-mobile-1686650395497.jpeg 1.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Men,_Accessories,_Belt-mobile-1686650395497.jpeg 2.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

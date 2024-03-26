@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "ALBATROSS Men's Short-1704206689946.jpeg.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "ALBATROSS Men's Short-1704206689946.jpeg 1.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "ALBATROSS Men's Short-1704206689946.jpeg 2.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
