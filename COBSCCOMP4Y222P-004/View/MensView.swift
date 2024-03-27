@@ -2,7 +2,7 @@
 //  MensView.swift
 //  COBSCCOMP4Y222P-004
 //
-//  Created by NIBMPC04PC02 on 2024-03-26.
+//  Created by NIBM-LAB04-PC03 on 2024-03-27.
 //
 
 import SwiftUI
@@ -10,8 +10,6 @@ import SwiftUI
 struct MensView: View {
     @State private var search: String = ""
     @State private var selectedIndex: Int = 1
-    
-  
     
     var body: some View {
         NavigationView {
@@ -112,7 +110,7 @@ struct TagLine1View: View {
         Text("Men's ")
             .font(.custom("PlayfairDisplay-Regular", size: 28))
             .foregroundColor(Color.white)
-            + Text("Cloths!")
+        + Text("Cloths!")
             .font(.custom("PlayfairDisplay-Bold", size: 28))
             .fontWeight(.bold)
             .foregroundColor(Color.white)
@@ -128,5 +126,7 @@ struct TagLine1View: View {
                 .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5) // Add shadow
         }
     }
-
+}
+#Preview {
+    MensView()
 }
