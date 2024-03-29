@@ -53,11 +53,11 @@ struct HomeView: View {
                                     NavigationLink(
                                         destination: DetailsView(),
                                         label: {
-                                            ProductCardView(image: Image("nike"), brandName: "NIKE", size: 110)
-                                            ProductCardView(image: Image("moose"), brandName: "MOOSE", size: 110)
-                                            ProductCardView(image: Image("cocodile"), brandName: "COCODILE", size: 110)
-                                            ProductCardView(image: Image("boss"), brandName: "BOSS", size: 110)
-                                            ProductCardView(image: Image("odel"), brandName: "ODEL", size: 110)
+                                            ProductCardView(image: Image("nike"), brandName: "NIKE", size: 90)
+                                            ProductCardView(image: Image("moose"), brandName: "MOOSE", size: 90)
+                                            //ProductCardView(image: Image("cocodile"), brandName: "COCODILE", size: 90)
+                                            ProductCardView(image: Image("boss"), brandName: "BOSS", size: 90)
+                                            ProductCardView(image: Image("odel"), brandName: "ODEL", size: 90)
 
                                         })
                                         .navigationBarHidden(true)
@@ -76,10 +76,10 @@ struct HomeView: View {
                         ScrollView (.horizontal, showsIndicators: false) {
                             HStack (spacing: 0) {
                                 ForEach(0 ..< 4) { i in
-                                    ProductCardView(image: Image("mandara"), brandName: "MANDARA", size: 110)
-                                    ProductCardView(image: Image("nihal"), brandName: "NIHAL", size: 110)
-                                    ProductCardView(image: Image("nolimit"), brandName: "NOLIMIT", size: 110)
-                                    ProductCardView(image: Image("fationbug"), brandName: "FA_BUG", size: 110)
+                                    ProductCardView(image: Image("mandara"), brandName: "MAN", size: 90)
+                                    ProductCardView(image: Image("nihal"), brandName: "NIHAL", size: 90)
+                                    ProductCardView(image: Image("nolimit"), brandName: "NOLIMIT", size: 90)
+                                    ProductCardView(image: Image("fationbug"), brandName: "FA_BUG", size: 90)
                                 }
                                 .padding(.leading)
                             }
@@ -225,7 +225,7 @@ struct ProductCardView: View {
 
 struct BottomNavBarView: View {
     var body: some View {
-        HStack {
+        HStack(spacing: 30) { // Add spacing between items
             BottomNavBarItem(image: Image(systemName: "house.fill"), label: "Home", action: {})
             BottomNavBarItem(image: Image(systemName: "heart.fill"), label: "Favorites", action: {})
             BottomNavBarItem(image: Image(systemName: "cart.fill"), label: "Shop", action: {})
@@ -233,8 +233,8 @@ struct BottomNavBarView: View {
         }
         .padding()
         .background(Color.white)
-        .clipShape(Capsule())
-        .padding(.horizontal)
+       
+        .padding()
         .shadow(color: Color.black.opacity(0.15), radius: 2, x: 2, y: 6)
     }
 }

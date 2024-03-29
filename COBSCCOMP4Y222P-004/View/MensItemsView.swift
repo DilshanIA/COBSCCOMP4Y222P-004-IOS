@@ -9,60 +9,70 @@ import SwiftUI
 
 struct MensItemsView: View {
     @State private var showGridView: Bool = false
+    @StateObject var productVM: MensViewModel = MensViewModel()
+    @State private var navigate: Bool = false
+    @State private var selectedProduct: Items?
     var body: some View {
         NavigationView{
             ZStack{
                 Color(hex: 0xF9F9F9).edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                 VStack{
-                    Text("Mens")
-                        .font(.largeTitle)
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        .foregroundColor(.black)
-                        .padding()
-                    
-                    HStack{
-                        Spacer()
-                        Button(action: {}){
-                            Image(systemName: "line.horizontal.3.decrease")
-                                .frame(width: 20, height: 20)
-                                .foregroundColor(.black)
-                        }
+                
+//                        ForEach(productVM.Products, id: \.id) { product in
+//                            ClothsItemView(product: product)
+//                        
+//                          }
                         
-                    Spacer()
+                        Text("TShirt")
+                            .font(.largeTitle)
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            .foregroundColor(.black)
+                            .padding()
                         
-                        Menu{
+                        HStack{
+                            Spacer()
                             Button(action: {}){
-                                Text("Popular")
+                                Image(systemName: "line.horizontal.3.decrease")
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(.black)
                             }
-                            Button(action: {}){
-                                Text("Newest")
+                            
+                            Spacer()
+                            
+                            Menu{
+                                Button(action: {}){
+                                    Text("Popular")
+                                }
+                                Button(action: {}){
+                                    Text("Newest")
+                                }
+                                Button(action: {}){
+                                    Text("Price: Low to High")
+                                }
+                                Button(action:{}){
+                                    Text("Price: High to Low")
+                                }
+                            }label: {Label("Sort By", systemImage: "arrow.up.arrow.down")
+                                    .foregroundColor(.black)
                             }
-                            Button(action: {}){
-                                Text("Price: Low to High")
+                            Spacer()
+                            
+                            Button(action: {
+                                showGridView.toggle()
+                            }){
+                                Image(systemName: showGridView ? "square.grid.3x2.fill" : "rectangle.grid.1x2.fill")
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                                    .foregroundColor(.black)
                             }
-                            Button(action:{}){
-                                Text("Price: High to Low")
-                            }
-                        }label: {Label("Sort By", systemImage: "arrow.up.arrow.down")
-                                .foregroundColor(.black)
+                            .padding()
                         }
-                        Spacer()
-                        
-                        Button(action: {
-                            showGridView.toggle()
-                        }){
-                            Image(systemName: showGridView ? "square.grid.3x2.fill" : "rectangle.grid.1x2.fill")
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                                .foregroundColor(.black)
-                        }
-                        .padding()
-                    }
-                    .background(Color(hex: 0xCCD1D1))
-                    .cornerRadius(10)
-                    .padding([.leading, .trailing], 10)
-                    
-                    getGridView()
+                        .background(Color(hex: 0xCCD1D1))
+                        .cornerRadius(10)
+                        .padding([.leading, .trailing], 10)
+                        getGridView(products: productVM.Products)
+                        //getGridView()
+                    BottomNavBarView1()
                     
                 }
             }
@@ -71,49 +81,57 @@ struct MensItemsView: View {
 }
 
 struct getGridView: View{
+    var products: [Items]
     var body: some View{
-        ScrollView{
-            LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10){
-                ForEach(1...10, id: \.self) { index in
-                    ClothsItemView(index: index)
+        HStack{
+            VStack{
+                ScrollView{
+                    LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10){
+                        ForEach(products, id: \.id) { product in
+                            ClothsItemView(product: product)
+                            
+                        }
+                    }
+                    .padding()
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(5)
+                    .shadow(radius: 4)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    
                 }
             }
-            .padding()
         }
     }
 }
 
-struct ClothsItemView: View{
-    let index: Int
-    
-    var body: some View{
+@ViewBuilder func ClothsItemView(product: Items) -> some View {
+    HStack{
         VStack(alignment:  .leading) {
             Image("nolimitDetails")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 150)
-                .cornerRadius(10)
             
-            Text("Product \(index)")
+            
+            Text(product.Product_Name)
                 .font(.headline)
                 .foregroundColor(.black)
-                .padding(.top, 8)
+                .multilineTextAlignment(.center)
             
-            Text("Brand Name")
-                .font(.caption)
-                .foregroundColor(.gray)
-            
-            HStack{
-                ForEach(0..<5){ _ in
-                    Image(systemName: "start.fill")
-                        .foregroundColor(.yellow)
-                }
-            }
-            Text("1890.00")
+            Text("\(product.Price)")
                 .font(.headline)
                 .foregroundColor(.red)
                 .padding(.top, 4)
             
+            
+            HStack{
+                ForEach(0..<5){ _ in
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.yellow)
+                }
+            }
             HStack(spacing: 10) {
                 Button(action: {}){
                     Image(systemName: "heart.fill")
@@ -127,16 +145,31 @@ struct ClothsItemView: View{
                 Button(action: {}) {
                     Image(systemName: "cart.fill")
                         .foregroundColor(.blue)
+                        .padding()
                 }
                 .background(Color.white)
                 .clipShape(Circle())
                 .shadow(color: Color.gray.opacity(0.4), radius: 3, x: 0, y: 2)
             }
-            .padding(8)
-            .background(Color.white)
-            .cornerRadius(10)
-            .shadow(color: Color.gray.opacity(0.4), radius: 3, x: 0, y: 2)
+ 
+            
         }
+        }
+    }
+struct BottomNavBarView1: View {
+    var body: some View {
+        HStack(spacing: 20) {
+            BottomNavBarItem(image: Image(systemName: "house.fill"), label: "Home", action: {})
+            BottomNavBarItem(image: Image(systemName: "heart.fill"), label: "Favorites", action: {})
+            BottomNavBarItem(image: Image(systemName: "cart.fill"), label: "Shop", action: {})
+            BottomNavBarItem(image: Image(systemName: "person.fill"), label: "Profile", action: {})
+        }
+        .padding(.horizontal
+        )
+        .background(Color.white)
+       
+        .padding()
+        .shadow(color: Color.black.opacity(0.15), radius: 2, x: 2, y: 6)
     }
 }
     struct MensItemsView_Previews: PreviewProvider {

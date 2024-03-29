@@ -10,39 +10,43 @@ import SwiftUI
 import Combine
 
 
-class MensViewModel : ObservableObject {
+class MensViewModel :  ObservableObject {
     
-    var compose = Set<AnyCancellable>()
+    var cancellables = Set<AnyCancellable>()
     
-    @Published var products : [Items] = []
+    @Published var Products: [Items] = []
     
-    init()
-    {
+    init() {
         loadGetProduct()
     }
     
-    func loadGetProduct()
-    {
-        let getApiUrlString = "https://slmapioswebapi.azurewebsites.net/"
-        guard let getApiUrlString = URL(string: getApiUrlString) else {return}
-        var getApiUrlRequest = URLRequest (url : getApiUrlString)
-        //session
-        let getApiUrlSession = URLSession(configuration: .default)
-        getApiUrlSession.dataTaskPublisher(for: getApiUrlRequest)
+    func loadGetProduct() {
+        let apiUrlString = "https://cobsccomp4y222p-004-ios-cw-api.onrender.com/products/subcategoryproducts/Casual Dresses"
+        
+        guard let apiUrl = URL(string: apiUrlString) else { return }
+        
+        var apiUrlRequest = URLRequest(url: apiUrl)
+        
+        let apiUrlSession = URLSession(configuration: .default)
+        
+        apiUrlSession.dataTaskPublisher(for: apiUrlRequest)
             .map(\.data)
-            .retry(3)
+            .retry(3) // Retry the request up to 3 times if it fails
             .decode(type: MensModel.self, decoder: JSONDecoder())
-            .eraseToAnyPublisher()
             .receive(on: DispatchQueue.main)
-            .sink{ res in
-            }
-    receiveValue: {model in
-        guard let productArray = model.Products else { return}
-        self.products = productArray
+            .sink(receiveCompletion: { completion in
+                // Handle completion if necessary
+                switch completion {
+                case .finished:
+                    print("Data loading finished")
+                case .failure(let error):
+                    print("Error: \(error)")
+                    // Handle error if needed
+                }
+            }, receiveValue: { model in
+                guard let productArray = model.Products else { return }
+                self.Products = productArray
+            })
+            .store(in: &cancellables)
     }
-    .store(in: &compose)
-        
-        
-    }
-        
-    }
+}

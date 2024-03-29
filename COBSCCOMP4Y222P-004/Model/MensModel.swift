@@ -6,13 +6,17 @@
 //
 
 import Foundation
-struct MensModel : Codable {
-    let Products : [Items]?
+struct MensModel: Codable {
+    let Products: [Items]?
 }
 
-struct Items:Codable {
-    let color : String
-    let description : String
-    let id : Int
-  
+struct Items: Codable {
+    let _id: String
+    let id : Double
+    let Product_Name : String
+    let Subcategory_resId: String
+    let Description: String
+    let Price: Int
+    let Image_url: String
+    let __v: Int
 }

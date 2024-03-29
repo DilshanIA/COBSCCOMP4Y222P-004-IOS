@@ -1,13 +1,13 @@
 //
-//  Test1View.swift
+//  Test12.swift
 //  COBSCCOMP4Y222P-004
 //
-//  Created by NIBMPC04PC02 on 2024-03-26.
+//  Created by NIBM-LAB04-PC03 on 2024-03-29.
 //
 
 import SwiftUI
 
-struct Test1View:  View {
+struct Test12:  View {
     
     @StateObject var productVM : MensViewModel = MensViewModel()
         
@@ -58,5 +58,5 @@ struct Test1View:  View {
     }
 
 #Preview {
-    Test1View()
+    Test12()
 }
