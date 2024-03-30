@@ -16,7 +16,7 @@ struct Items: Codable {
     let Product_Name : String
     let Subcategory_resId: String
     let Description: String
-    let Price: String
+    let Price: Double
     let Image_url: String
     let __v: Int
 }

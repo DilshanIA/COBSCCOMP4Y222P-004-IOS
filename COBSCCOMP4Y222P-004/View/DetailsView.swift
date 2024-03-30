@@ -58,6 +58,12 @@ struct DetailsView: View {
     @State private var selectedSizeIndex = 0
     var selectedProduct : Items?
     @State private var quantity: Int = 1
+    
+    var totalPrice: Float {
+        let pricePerItem = Double(selectedProduct?.Price ?? 0) ?? 0
+        return Float(pricePerItem * Double(quantity))
+    }
+
     let sizes = ["Small", "Medium", "X-Large"]
     
     var body: some View {
@@ -66,42 +72,42 @@ struct DetailsView: View {
             
                 .ignoresSafeArea()
             VStack{
-               
+                
                 ScrollView  {
                     Image("image1")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .cornerRadius(5)
+                        .cornerRadius(10)
                         .padding(.horizontal)
                         .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                         )
-
+                    
                     
                     
                         .edgesIgnoringSafeArea(.top)
                     HStack {
                         
-                        Text("LKR \(selectedProduct?.Price ?? "")")
-
-                            .font(.system(size: 20))
-                            .foregroundColor(.red)
+                        Text("Rs.\(String(format: "%.2f", selectedProduct?.Price ?? 0))")
+                                   .fontWeight(.semibold)
+                                   .foregroundColor(.black)
+                                   .padding(.top, 8)
                         Spacer()
                         
                         Text("Add to Cart")
-                               .font(.title3)
-                               .fontWeight(.semibold)
-                               .foregroundColor(Color.white)
-                               .padding()
-                               .padding(.horizontal, 8)
-                               .cornerRadius(10.0)
-                               .background(
-                                   Capsule()
-                                       .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.green.opacity(0.5)]), startPoint: .top, endPoint: .bottom))
-                               )
-                
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .foregroundColor(Color.white)
+                            .padding()
+                            .padding(.horizontal, 8)
+                            .cornerRadius(10.0)
+                            .background(
+                                Capsule()
+                                    .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.green.opacity(0.5)]), startPoint: .top, endPoint: .bottom))
+                            )
+                        
                         
                     }
                     
@@ -123,8 +129,7 @@ struct DetailsView: View {
                             .foregroundColor(.gray)
                             .padding(.leading, 8)
                     }
-                    StepperView()
-                   
+                    StepperView(quantity: $quantity)
                     Text(selectedProduct?.Description ?? "")
                         .fontWeight(.medium)
                         .padding(.vertical, 8)
@@ -133,19 +138,16 @@ struct DetailsView: View {
                     Spacer()
                     
                     HStack {
-                       
-                        if let priceString = selectedProduct?.Price, let price = Double(priceString) {
-                            let totalPrice = price * Double(quantity)
-                            let formattedPrice = String(format: "%.2f", totalPrice)
-                            Text("LKR \(formattedPrice)")
-                                .fontWeight(.semibold)
-                        } else {
-                            Text("Price not available")
-                                .fontWeight(.semibold)
-                        }
-
-
+                        
+                        
+                        Text("Rs.\(String(format: "%.2f", totalPrice))")// Display the total price
+                                   .fontWeight(.semibold)
+                                   .foregroundColor(.black)
+                                   .padding(.top, 8)
                     }
+                    
+                    
+                    
                     
                     HStack {
                         Text("Colors:")
@@ -165,21 +167,21 @@ struct DetailsView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     .padding(.top, 8)
+                    
                 }
-                .padding()
-    
-             
                 
-           
-                BottomNavBarView2()
+                .padding(12)
+                
+                
             }
-         
+           
         }
         
-        
+    }
+  
     }
     
-}
+
 
 
 
@@ -226,13 +228,14 @@ struct ColorCircleView: View {
 }
 
 struct StepperView: View {
-    @State private var quantity: Int = 1
+    @Binding var quantity: Int
     var body: some View {
         HStack(spacing: 16) {
             Button(action: {
-                          // Step 2: Increment quantity when plus button is clicked
-                          quantity += 1
-                      }) {
+                            if quantity > 1 { // Ensure quantity doesn't go negative
+                                quantity -= 1
+                            }
+                        }) {
                 Image(systemName: "minus")
                     .padding(10)
                     .foregroundColor(.black)
@@ -255,7 +258,9 @@ struct StepperView: View {
                           )
            
             
-            Button(action: {}) {
+            Button(action: {
+                           quantity += 1
+                       }) {
                 Image(systemName: "plus")
                     .padding(10)
                     .foregroundColor(.black)
