@@ -57,115 +57,127 @@ struct DetailsView: View {
     @State private var rating: Int = 0
     @State private var selectedSizeIndex = 0
     var selectedProduct : Items?
+    @State private var quantity: Int = 1
     let sizes = ["Small", "Medium", "X-Large"]
     
     var body: some View {
         ZStack{
             LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
-           
+            
                 .ignoresSafeArea()
             VStack{
+               
                 ScrollView  {
                     Image("image1")
                         .resizable()
-                        .aspectRatio(1,contentMode: .fit)
-                        .edgesIgnoringSafeArea(.top)
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(5)
+                        .padding(.horizontal)
+                        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                        )
 
-                }
-                .edgesIgnoringSafeArea(.top)
-                            HStack {
+                    
+                    
+                        .edgesIgnoringSafeArea(.top)
+                    HStack {
+                        
+                        Text("LKR \(selectedProduct?.Price ?? "")")
+
+                            .font(.system(size: 20))
+                            .foregroundColor(.red)
+                        Spacer()
+                        
+                        Text("Add to Cart")
+                               .font(.title3)
+                               .fontWeight(.semibold)
+                               .foregroundColor(Color.white)
+                               .padding()
+                               .padding(.horizontal, 8)
+                               .cornerRadius(10.0)
+                               .background(
+                                   Capsule()
+                                       .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.green.opacity(0.5)]), startPoint: .top, endPoint: .bottom))
+                               )
                 
-                                Text("LKR 1,890.00")
-                                    .font(.system(size: 20))
-                                    .foregroundColor(.white)
-                                Spacer()
-                                Text("Add to Cart")
-                                    .font(.title3)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(Color.white)
-                                    .padding()
-                                    .padding(.horizontal, 8)
-                                    .background(Color.blue)
-                                    .cornerRadius(10.0)
-                
-                            }
-                
-                Text(selectedProduct?.Product_Name ?? "")
-                    .font(.title)
-                    .fontWeight(.bold)
-                
-                HStack {
-                    Text("Rate:")
-                    ForEach(1..<6) { index in
-                        Image(systemName: index <= rating ? "star.fill" : "star")
-                            .foregroundColor(.yellow)
-                            .onTapGesture {
-                                rating = index
-                            }
+                        
                     }
-                    Text("(\(rating))/5")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                        .padding(.leading, 8)
-                }
-                StepperView()
-                
-                Text(selectedProduct?.Description ?? "")
-                    .fontWeight(.medium)
-                    .padding(.vertical, 8)
-                
-                //                VStack (alignment: .leading, spacing: 8) {
-                //                    Text("* Brand: MARK JONES")
-                //                    Text("* Material: Single Jersey")
-                //                    Text("* Texture: Plain")
-                //                    Text("* Collar: Polo Collar")
-                //                    Text("* Sleeve: Short Sleeve")
-                //                    Text("* Color: Rose Brown")
-                //                    Text("* Size: \(sizes[selectedSizeIndex])")
-                //                }
-                    .opacity(0.6)
-                
-                Spacer()
-                
-                HStack {
-                    Text("Price:")
-                    Text("LKR 1,890.00")
-                        .fontWeight(.semibold)
-                }
-                
-                HStack {
-                    Text("Colors:")
-                    HStack(spacing: 8) {
-                        ColorCircleView(color: .red)
-                        ColorCircleView(color: .green)
-                        ColorCircleView(color: .blue)
+                    
+                    Text(selectedProduct?.Product_Name ?? "")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    
+                    HStack {
+                        Text("Rate:")
+                        ForEach(1..<6) { index in
+                            Image(systemName: index <= rating ? "star.fill" : "star")
+                                .foregroundColor(.yellow)
+                                .onTapGesture {
+                                    rating = index
+                                }
+                        }
+                        Text("(\(rating))/5")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .padding(.leading, 8)
                     }
-                }
-                
-                
-                
-                Picker(selection: $selectedSizeIndex, label: Text("Size")) {
-                    ForEach(0..<sizes.count) { index in
-                        Text(sizes[index]).tag(index)
+                    StepperView()
+                   
+                    Text(selectedProduct?.Description ?? "")
+                        .fontWeight(.medium)
+                        .padding(.vertical, 8)
+                        .opacity(0.6)
+                    
+                    Spacer()
+                    
+                    HStack {
+                       
+                        if let priceString = selectedProduct?.Price, let price = Double(priceString) {
+                            let totalPrice = price * Double(quantity)
+                            let formattedPrice = String(format: "%.2f", totalPrice)
+                            Text("LKR \(formattedPrice)")
+                                .fontWeight(.semibold)
+                        } else {
+                            Text("Price not available")
+                                .fontWeight(.semibold)
+                        }
+
+
                     }
+                    
+                    HStack {
+                        Text("Colors:")
+                        HStack(spacing: 8) {
+                            ColorCircleView(color: .red)
+                            ColorCircleView(color: .green)
+                            ColorCircleView(color: .blue)
+                        }
+                    }
+                    
+                    
+                    
+                    Picker(selection: $selectedSizeIndex, label: Text("Size")) {
+                        ForEach(0..<sizes.count) { index in
+                            Text(sizes[index]).tag(index)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.top, 8)
                 }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding(.top, 8)
+                .padding()
+    
+             
+                
+           
+                BottomNavBarView2()
             }
-            .padding()
-            .padding(.top)
-            .background(Color("Bg"))
-            .offset(x: 0, y: -30.0)
-            
-            Divider()
-                .padding(.top, 16)
-                .padding(.bottom, 8)
-                .background(Color.gray.opacity(0.2))
+         
         }
-       
+        
+        
     }
-      
-               
     
 }
 
@@ -214,36 +226,71 @@ struct ColorCircleView: View {
 }
 
 struct StepperView: View {
+    @State private var quantity: Int = 1
     var body: some View {
         HStack(spacing: 16) {
-            Button(action: {}) {
+            Button(action: {
+                          // Step 2: Increment quantity when plus button is clicked
+                          quantity += 1
+                      }) {
                 Image(systemName: "minus")
                     .padding(10)
                     .foregroundColor(.black)
                     .background(Color.white)
-                    .clipShape(Circle())
+                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                    .shadow(color: Color.black.opacity(0.2), radius: 4, x:0, y:2)
+                  
+                  
             }
             .frame(width: 40, height: 40)
+            .background(Circle() .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.green.opacity(0.5)]), startPoint: .top, endPoint: .bottom)))
             
-            Text("1")
-                .font(.title2)
-                .fontWeight(.semibold)
-                .padding(.horizontal, 12)
-                .background(Color.white)
-                .clipShape(Capsule())
+            Text("\(quantity)")
+                          .font(.title2)
+                          .fontWeight(.semibold)
+                          .padding(.horizontal, 12)
+                          .background(
+                              Capsule()
+                                  .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.green.opacity(0.5)]), startPoint: .top, endPoint: .bottom))
+                          )
+           
             
             Button(action: {}) {
                 Image(systemName: "plus")
                     .padding(10)
                     .foregroundColor(.black)
                     .background(Color.white)
-                    .clipShape(Circle())
+                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                    .shadow(color: Color.black.opacity(0.2), radius: 4, x:0, y:2)
             }
             .frame(width: 40, height: 40)
+            .background( Circle() .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.green.opacity(0.5)]), startPoint: .top, endPoint: .bottom)))
         }
         .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-        .background(Color.gray.opacity(0.1))
-        .cornerRadius(12)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.1), Color.gray.opacity(0.2)]), startPoint: .top, endPoint: .bottom))
+                    .shadow(color: Color.black.opacity(0.3), radius: 6, x: 0, y: 3)
+            )
+    }
+}
+struct BottomNavBarView2: View {
+    var body: some View {
+        HStack(spacing: 20) {
+            BottomNavBarItem(image: Image(systemName: "house.fill"), label: "Home", action: {})
+                .foregroundColor(.blue)
+            BottomNavBarItem(image: Image(systemName: "heart.fill"), label: "Favorites", action: {})
+                .foregroundColor(.gray)
+            BottomNavBarItem(image: Image(systemName: "cart.fill"), label: "Shop", action: {})
+                .foregroundColor(.gray)
+            BottomNavBarItem(image: Image(systemName: "person.fill"), label: "Profile", action: {})
+                .foregroundColor(.gray)
+        }
+        .padding(.horizontal)
+        .padding(.vertical, 10)
+        .background(Color.white)
+        .cornerRadius(20)
+        .shadow(color: Color.blue.opacity(0.8), radius: 10, x: 0, y: -5)
     }
 }
 

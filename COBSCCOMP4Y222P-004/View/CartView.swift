@@ -17,10 +17,10 @@ struct Item: Identifiable {
 
 struct CartView: View {
     @State private var selectedItem: Item?
+    var selectedProduct : Items?
     @State private var items: [Item] = [
         Item(name: "Item 1", image: "item1", details: "Description of item 1", quantity: 1),
-        Item(name: "Item 2", image: "item2", details: "Description of item 2", quantity: 1),
-        Item(name: "Item 3", image: "item3", details: "Description of item 3", quantity: 1)
+      
     ]
     
     var body: some View {
@@ -28,10 +28,7 @@ struct CartView: View {
         
         ScrollView {
             VStack {
-                Text("Your Cart")
-                    .font(.title)
-                    .foregroundColor(.blue)
-                    .padding()
+        
                 
                 Spacer()
                 
@@ -43,7 +40,7 @@ struct CartView: View {
                 
                
                 VStack {
-                    Text("Items in Your Cart:")
+                    Text("Items in My Cart:")
                         .font(.headline)
                         .foregroundColor(.black)
                         .padding(.top)
