@@ -9,51 +9,165 @@ import SwiftUI
 
 struct DetailsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    //    var selectedProduct : Items?
+    //    var body: some View {
+    //        ZStack {
+    //            LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.1568627451, green: 0.4, blue: 0.662745098, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
+    //                .ignoresSafeArea()
+    //            Color("Bg")
+    //            ScrollView  {
+    //                    Image("nolimitDetails")
+    //                        .resizable()
+    //                        .aspectRatio(1,contentMode: .fit)
+    //                        .edgesIgnoringSafeArea(.top)
+    //
+    //                DescriptionView()
+    //
+    //            }
+    //            .edgesIgnoringSafeArea(.top)
+    //
+    //            HStack {
+    //
+    //                Text("LKR 1,890.00")
+    //                    .font(.system(size: 20))
+    //                    .foregroundColor(.white)
+    //                Spacer()
+    //                Text("Add to Cart")
+    //                    .font(.title3)
+    //                    .fontWeight(.semibold)
+    //                    .foregroundColor(Color.white)
+    //                    .padding()
+    //                    .padding(.horizontal, 8)
+    //                    .background(Color.blue)
+    //                    .cornerRadius(10.0)
+    //
+    //            }
+    //            .padding()
+    //            .padding(.horizontal)
+    //            .background(Color.gray)
+    //
+    //            .frame(maxHeight: .infinity, alignment: .bottom)
+    //            .edgesIgnoringSafeArea(.bottom)
+    //        }
+    //        .navigationBarBackButtonHidden(true)
+    //    }
+    //}
+    //
+    //struct DescriptionView: View {
+    @State private var rating: Int = 0
+    @State private var selectedSizeIndex = 0
+    var selectedProduct : Items?
+    let sizes = ["Small", "Medium", "X-Large"]
+    
     var body: some View {
-        ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.1568627451, green: 0.4, blue: 0.662745098, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
+        ZStack{
+            LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
+           
                 .ignoresSafeArea()
-            Color("Bg")
-            ScrollView  {
-                    Image("nolimitDetails")
+            VStack{
+                ScrollView  {
+                    Image("image1")
                         .resizable()
                         .aspectRatio(1,contentMode: .fit)
                         .edgesIgnoringSafeArea(.top)
+
+                }
+                .edgesIgnoringSafeArea(.top)
+                            HStack {
                 
-                DescriptionView()
+                                Text("LKR 1,890.00")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.white)
+                                Spacer()
+                                Text("Add to Cart")
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(Color.white)
+                                    .padding()
+                                    .padding(.horizontal, 8)
+                                    .background(Color.blue)
+                                    .cornerRadius(10.0)
                 
-            }
-            .edgesIgnoringSafeArea(.top)
-            
-            HStack {
+                            }
                 
-                Text("LKR 1,890.00")
-                    .font(.system(size: 20))
-                    .foregroundColor(.white)
+                Text(selectedProduct?.Product_Name ?? "")
+                    .font(.title)
+                    .fontWeight(.bold)
+                
+                HStack {
+                    Text("Rate:")
+                    ForEach(1..<6) { index in
+                        Image(systemName: index <= rating ? "star.fill" : "star")
+                            .foregroundColor(.yellow)
+                            .onTapGesture {
+                                rating = index
+                            }
+                    }
+                    Text("(\(rating))/5")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .padding(.leading, 8)
+                }
+                StepperView()
+                
+                Text(selectedProduct?.Description ?? "")
+                    .fontWeight(.medium)
+                    .padding(.vertical, 8)
+                
+                //                VStack (alignment: .leading, spacing: 8) {
+                //                    Text("* Brand: MARK JONES")
+                //                    Text("* Material: Single Jersey")
+                //                    Text("* Texture: Plain")
+                //                    Text("* Collar: Polo Collar")
+                //                    Text("* Sleeve: Short Sleeve")
+                //                    Text("* Color: Rose Brown")
+                //                    Text("* Size: \(sizes[selectedSizeIndex])")
+                //                }
+                    .opacity(0.6)
+                
                 Spacer()
-                Text("Add to Cart")
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color.white)
-                    .padding()
-                    .padding(.horizontal, 8)
-                    .background(Color.blue)
-                    .cornerRadius(10.0)
                 
+                HStack {
+                    Text("Price:")
+                    Text("LKR 1,890.00")
+                        .fontWeight(.semibold)
+                }
+                
+                HStack {
+                    Text("Colors:")
+                    HStack(spacing: 8) {
+                        ColorCircleView(color: .red)
+                        ColorCircleView(color: .green)
+                        ColorCircleView(color: .blue)
+                    }
+                }
+                
+                
+                
+                Picker(selection: $selectedSizeIndex, label: Text("Size")) {
+                    ForEach(0..<sizes.count) { index in
+                        Text(sizes[index]).tag(index)
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding(.top, 8)
             }
             .padding()
-            .padding(.horizontal)
-            .background(Color.gray)
-
-            .frame(maxHeight: .infinity, alignment: .bottom)
-            .edgesIgnoringSafeArea(.bottom)
+            .padding(.top)
+            .background(Color("Bg"))
+            .offset(x: 0, y: -30.0)
+            
+            Divider()
+                .padding(.top, 16)
+                .padding(.bottom, 8)
+                .background(Color.gray.opacity(0.2))
         }
-        .navigationBarBackButtonHidden(true)
+       
     }
+      
+               
+    
 }
-
-
-
 
 
 
@@ -73,86 +187,7 @@ struct ColorDotView: View {
     }
 }
 
-struct DescriptionView: View {
-    @State private var rating: Int = 0
-    @State private var selectedSizeIndex = 0
-    let sizes = ["Small", "Medium", "X-Large"]
-    
-    var body: some View {
-        VStack (alignment: .leading, spacing: 16) {
-            Text("MARK JONES Polo Men's T-Shirt")
-                .font(.title)
-                .fontWeight(.bold)
-            
-            HStack {
-                Text("Rate:")
-                ForEach(1..<6) { index in
-                    Image(systemName: index <= rating ? "star.fill" : "star")
-                        .foregroundColor(.yellow)
-                        .onTapGesture {
-                            rating = index
-                        }
-                }
-                Text("(\(rating))/5")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                    .padding(.leading, 8)
-            }
-            StepperView()
-            
-            Text("Description")
-                .fontWeight(.medium)
-                .padding(.vertical, 8)
-            
-            VStack (alignment: .leading, spacing: 8) {
-                Text("* Brand: MARK JONES")
-                Text("* Material: Single Jersey")
-                Text("* Texture: Plain")
-                Text("* Collar: Polo Collar")
-                Text("* Sleeve: Short Sleeve")
-                Text("* Color: Rose Brown")
-                Text("* Size: \(sizes[selectedSizeIndex])")
-            }
-            .opacity(0.6)
-            
-            Spacer()
-            
-            HStack {
-                Text("Price:")
-                Text("LKR 1,890.00")
-                    .fontWeight(.semibold)
-            }
-            
-            HStack {
-                Text("Colors:")
-                HStack(spacing: 8) {
-                    ColorCircleView(color: .red)
-                    ColorCircleView(color: .green)
-                    ColorCircleView(color: .blue)
-                }
-            }
-            
-         
-            
-            Picker(selection: $selectedSizeIndex, label: Text("Size")) {
-                ForEach(0..<sizes.count) { index in
-                    Text(sizes[index]).tag(index)
-                }
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding(.top, 8)
-        }
-        .padding()
-        .padding(.top)
-        .background(Color("Bg"))
-        .offset(x: 0, y: -30.0)
-        
-        Divider()
-                  .padding(.top, 16)
-                  .padding(.bottom, 8)
-                  .background(Color.gray.opacity(0.2))
-    }
-}
+
 
 
 

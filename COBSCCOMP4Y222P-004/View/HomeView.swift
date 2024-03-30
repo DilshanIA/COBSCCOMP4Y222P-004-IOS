@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct HomeView: View {
     @State private var search: String = ""
     @State private var selectedIndex: Int = 1

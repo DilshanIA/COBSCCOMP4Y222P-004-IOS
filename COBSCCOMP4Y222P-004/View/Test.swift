@@ -14,8 +14,8 @@ struct Test: View {
     var body: some View {
         NavigationView {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.1568627451, green: 0.4, blue: 0.662745098, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
-                    .ignoresSafeArea()
+         LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.1568627451, green: 0.4, blue: 0.662745098, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
+                   .ignoresSafeArea()
 
                 ScrollView (showsIndicators: false) {
                     VStack (alignment: .leading) {
@@ -166,6 +166,7 @@ struct TagLine1View: View {
                     .padding(8)
                     .background(isActive ? Color.white: Color.clear)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
+                
             }
             .padding(.trailing)
         }
