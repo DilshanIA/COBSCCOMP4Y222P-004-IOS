@@ -9,61 +9,18 @@ import SwiftUI
 
 struct DetailsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    //    var selectedProduct : Items?
-    //    var body: some View {
-    //        ZStack {
-    //            LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.1568627451, green: 0.4, blue: 0.662745098, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
-    //                .ignoresSafeArea()
-    //            Color("Bg")
-    //            ScrollView  {
-    //                    Image("nolimitDetails")
-    //                        .resizable()
-    //                        .aspectRatio(1,contentMode: .fit)
-    //                        .edgesIgnoringSafeArea(.top)
-    //
-    //                DescriptionView()
-    //
-    //            }
-    //            .edgesIgnoringSafeArea(.top)
-    //
-    //            HStack {
-    //
-    //                Text("LKR 1,890.00")
-    //                    .font(.system(size: 20))
-    //                    .foregroundColor(.white)
-    //                Spacer()
-    //                Text("Add to Cart")
-    //                    .font(.title3)
-    //                    .fontWeight(.semibold)
-    //                    .foregroundColor(Color.white)
-    //                    .padding()
-    //                    .padding(.horizontal, 8)
-    //                    .background(Color.blue)
-    //                    .cornerRadius(10.0)
-    //
-    //            }
-    //            .padding()
-    //            .padding(.horizontal)
-    //            .background(Color.gray)
-    //
-    //            .frame(maxHeight: .infinity, alignment: .bottom)
-    //            .edgesIgnoringSafeArea(.bottom)
-    //        }
-    //        .navigationBarBackButtonHidden(true)
-    //    }
-    //}
-    //
-    //struct DescriptionView: View {
     @State private var rating: Int = 0
     @State private var selectedSizeIndex = 0
     var selectedProduct : Items?
     @State private var quantity: Int = 1
+    @State private var addedToCart = false
+    
     
     var totalPrice: Float {
         let pricePerItem = Double(selectedProduct?.Price ?? 0) ?? 0
         return Float(pricePerItem * Double(quantity))
     }
-
+    
     let sizes = ["Small", "Medium", "X-Large"]
     
     var body: some View {
@@ -79,107 +36,117 @@ struct DetailsView: View {
                         .aspectRatio(contentMode: .fit)
                         .cornerRadius(10)
                         .padding(.horizontal)
-                        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                        .shadow(color: Color.black.opacity(0.8), radius: 0, x: 0, y: 2)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.blue.opacity(0.3), lineWidth: 10)
                         )
-                    
-                    
-                    
                         .edgesIgnoringSafeArea(.top)
                     HStack {
                         
                         Text("Rs.\(String(format: "%.2f", selectedProduct?.Price ?? 0))")
-                                   .fontWeight(.semibold)
-                                   .foregroundColor(.black)
-                                   .padding(.top, 8)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.black)
+                            .padding(.top, 8)
                         Spacer()
                         
-                        Text("Add to Cart")
-                            .font(.title3)
-                            .fontWeight(.semibold)
-                            .foregroundColor(Color.white)
-                            .padding()
-                            .padding(.horizontal, 8)
-                            .cornerRadius(10.0)
-                            .background(
-                                Capsule()
-                                    .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.green.opacity(0.5)]), startPoint: .top, endPoint: .bottom))
-                            )
-                        
-                        
-                    }
-                    
-                    Text(selectedProduct?.Product_Name ?? "")
-                        .font(.title)
-                        .fontWeight(.bold)
-                    
-                    HStack {
-                        Text("Rate:")
-                        ForEach(1..<6) { index in
-                            Image(systemName: index <= rating ? "star.fill" : "star")
-                                .foregroundColor(.yellow)
-                                .onTapGesture {
-                                    rating = index
-                                }
+                        Button(action: {
+                            // Set addedToCart to true when Add to Cart button is tapped
+                            addedToCart = true
+                        }) {
+                            Text("Add to Cart")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .foregroundColor(Color.white)
+                                .padding()
+                                .padding(.horizontal, 5)
+                                .cornerRadius(5.0)
+                                .background(
+                                    Capsule()
+                                        .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.green.opacity(0.5)]), startPoint: .top, endPoint: .bottom))
+                                )
                         }
-                        Text("(\(rating))/5")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                            .padding(.leading, 8)
+                        .sheet(isPresented: $addedToCart) {
+                            // Pass selectedProduct to CartView
+                            CartView(selectedProduct: selectedProduct)
+                            
+                        }
+                        
                     }
-                    StepperView(quantity: $quantity)
-                    Text(selectedProduct?.Description ?? "")
-                        .fontWeight(.medium)
-                        .padding(.vertical, 8)
-                        .opacity(0.6)
-                    
-                    Spacer()
-                    
-                    HStack {
+                        Text(selectedProduct?.Product_Name ?? "")
+                            .font(.title)
+                            .fontWeight(.bold)
                         
                         
-                        Text("Rs.\(String(format: "%.2f", totalPrice))")// Display the total price
-                                   .fontWeight(.semibold)
-                                   .foregroundColor(.black)
-                                   .padding(.top, 8)
-                    }
-                    
-                    
-                    
-                    
-                    HStack {
-                        Text("Colors:")
-                        HStack(spacing: 8) {
-                            ColorCircleView(color: .red)
-                            ColorCircleView(color: .green)
-                            ColorCircleView(color: .blue)
+                        HStack {
+                            Text("Rate:")
+                            ForEach(1..<6) { index in
+                                Image(systemName: index <= rating ? "star.fill" : "star")
+                                    .foregroundColor(.yellow)
+                                    .onTapGesture {
+                                        rating = index
+                                    }
+                            }
+                            Text("(\(rating))/5")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                                .padding(.leading, 8)
                         }
-                    }
-                    
-                    
-                    
-                    Picker(selection: $selectedSizeIndex, label: Text("Size")) {
-                        ForEach(0..<sizes.count) { index in
-                            Text(sizes[index]).tag(index)
+                        
+                        
+                        
+                        StepperView(quantity: $quantity)
+                        Text(selectedProduct?.Description ?? "")
+                            .fontWeight(.medium)
+                            .padding(.vertical, 8)
+                            .opacity(0.6)
+                        
+                        Spacer()
+                        
+                        HStack {
+                            
+                            
+                            Text("Rs.\(String(format: "%.2f", totalPrice))")// Display the total price
+                                .fontWeight(.semibold)
+                                .foregroundColor(.black)
+                                .padding(.top, 8)
                         }
+                        
+                        
+                        
+                        
+                        HStack {
+                            Text("Colors:")
+                            HStack(spacing: 8) {
+                                ColorCircleView(color: .red)
+                                ColorCircleView(color: .green)
+                                ColorCircleView(color: .blue)
+                            }
+                        }
+                        
+                        
+                        
+                        Picker(selection: $selectedSizeIndex, label: Text("Size")) {
+                            ForEach(0..<sizes.count) { index in
+                                Text(sizes[index]).tag(index)
+                            }
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                        .padding(.top, 8)
+                        
                     }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .padding(.top, 8)
                     
+                    .padding(12)
                 }
-                
-                .padding(12)
-                
                 
             }
            
         }
         
+        
     }
-  
-    }
+
+        
     
 
 

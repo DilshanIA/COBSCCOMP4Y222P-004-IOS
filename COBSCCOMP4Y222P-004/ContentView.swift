@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var username: String = ""
         @State private var password: String = ""
+    @State private var shouldLogin: Bool = false
         
         var body: some View {
             ZStack {
@@ -45,35 +46,46 @@ struct ContentView: View {
                     
                    Spacer()
                     Button(action: {
-                      
-                        print("Username: \(username), Password: \(password)")
-                    }) {
-                        
-                        Text("Login")
-                            .foregroundColor(.white)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .cornerRadius(8)
-                    }
+                                        if username == "dilshan" && password == "123" {
+                                            print("Username: \(username), Password: \(password)")
+                                            // Set shouldLogin to true when the credentials are correct
+                                            shouldLogin = true
+                                        } else {
+                                            // Handle incorrect credentials
+                                            print("Incorrect credentials")
+                                        }
+                                    }) {
+                                        Text("Login")
+                                            .foregroundColor(.white)
+                                            .padding()
+                                            .frame(maxWidth: .infinity)
+                                            .background(Color.blue)
+                                            .cornerRadius(8)
+                                    }
+                   
                     Button(action: {
-                                       // Sign up action
-                                       print("Sign up tapped")
-                                   }) {
-                                       Text("Sign up")
-                                           .foregroundColor(.blue)
-                                           .padding()
-                                   }
-                                   .padding(.top, 10)
-                                   
-                                   Spacer()
-                               }
-                               .padding()
-                           }
-                           .navigationBarHidden(true)
-                       }
-    }
+                                      // Sign up action
+                                      print("Sign up tapped")
+                                  }) {
+                                      Text("Sign up")
+                                          .foregroundColor(.blue)
+                                          .padding()
+                                  }
+                                  .padding(.top, 10)
 
+                                  Spacer()
+                              }
+                              .padding()
+                          }
+                          .navigationBarHidden(true)
+                          // Navigate to MensItemsView only when shouldLogin is true
+                          NavigationLink(destination: MensItemsView(), isActive: $shouldLogin) {
+                              EmptyView()
+                          }
+                      }
+                  }
+
+                 
     struct ContentView_Previews: PreviewProvider {
         static var previews: some View {
             ContentView()

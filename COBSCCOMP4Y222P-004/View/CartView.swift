@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-struct Item: Identifiable {
+struct Item: Identifiable, Codable {
     var id = UUID()
     var name: String
     var image: String
@@ -16,12 +16,27 @@ struct Item: Identifiable {
 
 
 struct CartView: View {
-    @State private var selectedItem: Item?
+ 
     var selectedProduct : Items?
-    @State private var items: [Item] = [
-        Item(name: "Item 1", image: "item1", details: "Description of item 1", quantity: 1),
-      
-    ]
+    @State private var selectedItem: Item? = nil
+      @State private var items: [Item] = []
+    
+    private func saveItems() {
+           let encoder = JSONEncoder()
+           if let encoded = try? encoder.encode(items) {
+               UserDefaults.standard.set(encoded, forKey: "cartItems")
+           }
+       }
+
+   
+       private func loadItems() {
+           if let data = UserDefaults.standard.data(forKey: "cartItems") {
+               let decoder = JSONDecoder()
+               if let decoded = try? decoder.decode([Item].self, from: data) {
+                   items = decoded
+               }
+           }
+       }
     
     var body: some View {
      
@@ -55,7 +70,7 @@ struct CartView: View {
                 }
                 
                 Spacer()
-                
+           
                 
                 HStack {
                     Spacer()
@@ -89,12 +104,25 @@ struct CartView: View {
                 .padding(.bottom)
             }
             .padding()
-            .sheet(item: $selectedItem) { item in
-                ItemDetailView(item: item)
+            
+            .onAppear {
+                              loadItems()
+
+                           
+                              if let product = selectedProduct {
+                                  items.append(Item(name: product.Product_Name,
+                                                    image: product.Image_url,
+                                                    details: product.Description,
+                                                    quantity: 2))
+                                  saveItems()
+                }
                }
         }
     }
-}
+   
+    
+   }
+
 
 struct ItemView: View {
     var item: Item
@@ -113,6 +141,8 @@ struct ItemView: View {
                 Text(item.details)
                     .font(.subheadline)
                     .foregroundColor(.gray)
+                
+                
             }
             .padding()
             .background(Color.white)
@@ -127,8 +157,9 @@ struct ItemView: View {
 
 struct ItemDetailView: View {
     @State private var quantity: Int = 1
-    var item: Item
     
+    var item: Item
+    var addItemToCart: (Item) -> Void
     var body: some View {
         VStack {
             Image(item.image)
@@ -150,7 +181,7 @@ struct ItemDetailView: View {
                 Spacer()
                 
                 Button(action: {
-                   
+                    
                     if quantity > 1 {
                         quantity -= 1
                     }
@@ -161,7 +192,7 @@ struct ItemDetailView: View {
                 .padding()
                 
                 Button(action: {
-                 
+                    
                     if quantity < 10 {
                         quantity += 1
                     }
@@ -172,13 +203,24 @@ struct ItemDetailView: View {
                 .padding()
                 
                 Spacer()
+                Button(action: {
+                    let newItem = Item(name: item.name, image: item.image, details: item.details, quantity: quantity)
+                    addItemToCart(newItem)
+                }) {
+                    Text("Add to Cart")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                }
             }
+            .padding()
+            .background(Color.white)
+            .cornerRadius(10)
+            .shadow(radius: 5)
+            .padding()
         }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(10)
-        .shadow(radius: 5)
-        .padding()
     }
 }
 
