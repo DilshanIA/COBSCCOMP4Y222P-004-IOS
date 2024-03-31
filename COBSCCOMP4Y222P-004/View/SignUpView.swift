@@ -16,61 +16,75 @@ struct SignUpView: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color.blue, Color.white]), startPoint: .top, endPoint: .bottom)
+           
+            Image("Image3")
+                .resizable()
+                .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
             
+          
             VStack {
                 Image(systemName: "person.circle")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 100, height: 100)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.yellow)
                     .padding(.bottom, 30)
                 
                 Text("Sign up for Clothing Sale App")
                     .font(.title)
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .padding(.bottom, 18)
                 
                 TextField("Username", text: $username)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-                    .background(Color.white.opacity(0.8))
+                    .background(Color.white.opacity(0.4))
                     .cornerRadius(8)
                     .padding(.horizontal)
+                    .frame(maxWidth: 400)
                 
                 SecureField("Password", text: $password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-                    .background(Color.white.opacity(0.8))
+                    .background(Color.white.opacity(0.4))
                     .cornerRadius(8)
                     .padding(.horizontal)
+                    .frame(maxWidth: 400)
                 
                 TextField("Email", text: $email)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-                    .background(Color.white.opacity(0.8))
+                    .background(Color.white.opacity(0.4))
                     .cornerRadius(8)
                     .padding(.horizontal)
+                    .frame(maxWidth: 400)
                 
                 TextField("Phone Number", text: $phonenumber)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-                    .background(Color.white.opacity(0.8))
+                    .background(Color.white.opacity(0.4))
                     .cornerRadius(8)
                     .padding(.horizontal)
+                    .frame(maxWidth: 400)
                 
                 TextField("Address", text: $address)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-                    .background(Color.white.opacity(0.8))
+                    .background(Color.white.opacity(0.4))
                     .cornerRadius(8)
                     .padding(.horizontal)
+                    .frame(maxWidth: 400)
                 
                 Button(action: {
                     print("Username: \(username), Password: \(password), Email: \(email), Phone Number: \(phonenumber) , Address: \(address)")
                 }) {
                     Text("Sign up")
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.blue)
+                        .background(Color.yellow)
                         .cornerRadius(8)
                 }
                 .padding(.horizontal)
@@ -78,16 +92,13 @@ struct SignUpView: View {
                 Spacer()
             }
             .padding()
+            .foregroundColor(.white)
+            .opacity(30)
         }
         .navigationBarHidden(true)
     }
 }
 
-//struct SignupView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SignUp()
-//    }
-//}
 #Preview {
     SignUpView()
 }

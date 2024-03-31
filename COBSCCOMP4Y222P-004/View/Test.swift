@@ -92,7 +92,7 @@ struct Test: View {
                 
                 VStack {
                     Spacer()
-                    BottomNavBarView()
+                    BottomBar.BottomNavBarViewNew()
                 }
             }
              }
@@ -222,46 +222,6 @@ struct TagLine1View: View {
             .cornerRadius(20.0)
         }
     }
-    
-    
-    struct BottomNavBarView: View {
-        var body: some View {
-            HStack {
-                BottomNavBarItem(image: Image(systemName: "house.fill"), label: "Home", action: {})
-                BottomNavBarItem(image: Image(systemName: "heart.fill"), label: "Favorites", action: {})
-                BottomNavBarItem(image: Image(systemName: "cart.fill"), label: "Shop", action: {})
-                BottomNavBarItem(image: Image(systemName: "person.fill"), label: "Profile", action: {})
-            }
-            .padding()
-            .background(Color.white)
-            .clipShape(Capsule())
-            .padding(.horizontal)
-            .shadow(color: Color.black.opacity(0.15), radius: 2, x: 2, y: 6)
-        }
-    }
-    
-    struct BottomNavBarItem: View {
-        let image: Image
-        let label: String
-        let action: () -> Void
-        
-        var body: some View {
-            VStack {
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 24, height: 24)
-                Text(label)
-                    .font(.caption)
-            }
-            .padding(.vertical, 2)
-            .foregroundColor(Color.primary)
-            .onTapGesture(perform: action)
-        }
-        
-        
-        
-        
         struct BackButton: View {
             let action: () -> Void
             var body: some View {
@@ -275,6 +235,6 @@ struct TagLine1View: View {
             }
         }
     }
-}
+
 
 

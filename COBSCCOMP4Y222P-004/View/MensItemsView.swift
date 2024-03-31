@@ -16,6 +16,7 @@ import SDWebImageSwiftUI
         @StateObject var productVM: MensViewModel = MensViewModel()
         @State private var navigate: Bool = false
         @State private var selectedProduct: Items?
+        @State private var search: String = ""
         
         var body: some View {
             NavigationView{
@@ -24,18 +25,13 @@ import SDWebImageSwiftUI
                     LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
                         .ignoresSafeArea()
                     VStack{
-                        
-                        //                        ForEach(productVM.Products, id: \.id) { product in
-                        //                            ClothsItemView(product: product)
-                        //
-                        //                          }
-                        
+                       
                         Text("TShirt")
                             .font(.largeTitle)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             .foregroundColor(.black)
                             .padding()
-                        
+                        SearchAndScanView(search: $search)
                         HStack{
                             Spacer()
                             Button(action: {}){
@@ -79,12 +75,18 @@ import SDWebImageSwiftUI
                         .padding([.leading, .trailing], 10)
                         getGridView(products: productVM.Products)
                         //getGridView()
-                        BottomNavBarView1()
+                        BottomBar.BottomNavBarViewNew()
                         
                     }
                 }
+                .navigationBarItems(trailing:
+                             NavigationLink(destination: ProfileView()) {
+                                 Image(systemName: "person.fill")
+                                     .foregroundColor(.black)
+                             }
+                         )
             }
-            
+        
         }
         
         
@@ -97,6 +99,9 @@ import SDWebImageSwiftUI
         var body: some View {
             VStack {
                 ScrollView {
+                    
+                    LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.5058823824, green: 0.3372549117, blue: 0.06666667014, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
+                        .ignoresSafeArea()
                     LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
                         ForEach(products, id: \.id) { product in
                             ClothsItemView(product: product)
@@ -123,11 +128,16 @@ import SDWebImageSwiftUI
             
             
             ZStack{
-                RoundedRectangle (cornerRadius: 10)
-                    .frame(width:180, height:300)
-                    .foregroundColor(.white)
-                    .shadow(color : .black.opacity(0.5),radius:8)
                 
+                ZStack{
+                    LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
+                        .ignoresSafeArea()
+                    
+                    RoundedRectangle (cornerRadius: 10)
+                        .frame(width:180, height:300)
+                        .foregroundColor(.white)
+                        .shadow(color : .black.opacity(0.5),radius:8)
+                }
                 VStack{
                     URLImage(URL(string: product.Image_url)!){image in image
                             .resizable()
@@ -160,11 +170,7 @@ import SDWebImageSwiftUI
                         .background(Color.white)
                         .clipShape(Circle())
                         .shadow(color: Color.red.opacity(0.8), radius: 3, x: 0, y: 2)
-                        
-//                        NavigationLink(
-//                            destination: CartView(selectedProduct: selectedProduct), // Pass appropriate argument here
-//                            isActive: $navigate,
-//                            label: {
+                               
                                 Button(action: {
                              
                                     navigate = true
@@ -194,25 +200,6 @@ import SDWebImageSwiftUI
         
     }
         
-    struct BottomNavBarView1: View {
-        var body: some View {
-            HStack(spacing: 20) {
-                BottomNavBarItem(image: Image(systemName: "house.fill"), label: "Home", action: {})
-                    .foregroundColor(.blue)
-                BottomNavBarItem(image: Image(systemName: "heart.fill"), label: "Favorites", action: {})
-                    .foregroundColor(.gray)
-                BottomNavBarItem(image: Image(systemName: "cart.fill"), label: "Shop", action: {})
-                    .foregroundColor(.gray)
-                BottomNavBarItem(image: Image(systemName: "person.fill"), label: "Profile", action: {})
-                    .foregroundColor(.gray)
-            }
-            .padding(.horizontal)
-            .padding(.vertical, 10)
-            .background(Color.white)
-            .cornerRadius(20)
-            .shadow(color: Color.blue.opacity(0.8), radius: 10, x: 0, y: -5)
-        }
-    }
         struct MensItemsView_Previews: PreviewProvider {
             static var previews: some View {
                 MensItemsView()

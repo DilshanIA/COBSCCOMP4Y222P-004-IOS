@@ -7,85 +7,57 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    @State private var username: String = ""
-        @State private var password: String = ""
-    @State private var shouldLogin: Bool = false
-        
-        var body: some View {
+struct ContentView:  View {
+    @State private var Loading = false
+    @State private var Login = false
+    
+    var body: some View {
+        NavigationView {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color.blue, Color.white]), startPoint: .top, endPoint: .bottom)
+                Image("Image2")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
                     .edgesIgnoringSafeArea(.all)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
                 VStack {
-                    Image(systemName: "person.circle")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 100, height: 100)
-                        .foregroundColor(.blue)
-                        .padding(.bottom, 30)
                     Spacer()
                     
-                    Text("Welcome to DP ")
-                                       .font(.title)
-                                       .fontWeight(.bold)
-                                       .foregroundColor(.white)
-                                       .padding(.bottom, 20)
+                    Text("Welcome to VogueVenue")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.black)
+                        .padding(.bottom, 20)
                     
-                    TextField("Username", text: $username)
-                        .padding()
-                        .background(Color.white.opacity(0.8))
-                        .cornerRadius(8)
-                        .padding(.horizontal)
+                    if Loading {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .scaleEffect(2)
+                    }
                     
-                    SecureField("Password", text: $password)
-                        .padding()
-                        .background(Color.white.opacity(0.8))
-                        .cornerRadius(8)
-                        .padding(.horizontal)
-                    
-                   Spacer()
-                    Button(action: {
-                                        if username == "dilshan" && password == "123" {
-                                            print("Username: \(username), Password: \(password)")
-                                            // Set shouldLogin to true when the credentials are correct
-                                            shouldLogin = true
-                                        } else {
-                                            // Handle incorrect credentials
-                                            print("Incorrect credentials")
-                                        }
-                                    }) {
-                                        Text("Login")
-                                            .foregroundColor(.white)
-                                            .padding()
-                                            .frame(maxWidth: .infinity)
-                                            .background(Color.blue)
-                                            .cornerRadius(8)
-                                    }
-                   
-                    Button(action: {
-                                      // Sign up action
-                                      print("Sign up tapped")
-                                  }) {
-                                      Text("Sign up")
-                                          .foregroundColor(.blue)
-                                          .padding()
-                                  }
-                                  .padding(.top, 10)
+                    Spacer()
+                }
+                .padding()
+            }
+            .onAppear {
+              
+                Loading = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    Loading = false
+                    Login = true
+                }
+            }
+//            .background(
+//                NavigationLink(destination: HomeView(), isActive: $Login) {
+//                    EmptyView()
+//                }
+//                .hidden()
+//            )
+       
+        }
+    }
+}
 
-                                  Spacer()
-                              }
-                              .padding()
-                          }
-                          .navigationBarHidden(true)
-                          // Navigate to MensItemsView only when shouldLogin is true
-                          NavigationLink(destination: MensItemsView(), isActive: $shouldLogin) {
-                              EmptyView()
-                          }
-                      }
-                  }
-
-                 
     struct ContentView_Previews: PreviewProvider {
         static var previews: some View {
             ContentView()

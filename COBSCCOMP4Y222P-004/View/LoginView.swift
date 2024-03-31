@@ -8,120 +8,114 @@
 import SwiftUI
 
 struct LoginView: View {
+    @State private var isLogged: Bool = false
+    
     var body: some View {
-        NavigationView{
-            ZStack{
-                Color.white.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-              
-                VStack{
-                    Spacer()
-                    LoginPhotoView()
-                    LoginDetailsView()
-                }
-                VStack{
-                    HStack{
-                        Button(action: {}){
-                            Image(systemName: "arrow.left")
-                                .foregroundColor(.white)
-                                .font(.title)
-                                .frame(width: 35, height: 35)
-                                .padding()
-                        }
-                        Spacer()
-                    }
-                    Spacer()
-                }
-     
+        ZStack {
+        
+            Image("Image3")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+                .opacity(0.7)
+            
+        
+            VStack {
+                Spacer()
+                LoginDetailsView(isLogged: $isLogged)
+                
+                Spacer()
+                SignupView()
             }
+            .padding()
         }
-     
+        .navigationBarHidden(true)
+        .fullScreenCover(isPresented: $isLogged) {
+            HomeView()
+        }
     }
 }
 
-struct LoginPhotoView : View {
-    var body: some View {
-        Image("login")
-            .imageScale(.small)
-            .opacity(0.5)
-            .frame(width: 200, height: 200)
-            .padding(.bottom, 20)
- 
-    }
-}
-struct LoginDetailsView: View{
-    @State private var Email: String = ""
-    @State private var Password: String=""
+struct LoginDetailsView: View {
+    @Binding var isLogged: Bool
+    @State private var email: String = ""
+    @State private var password: String = ""
     
-    var body: some View{
-        VStack(alignment: .leading, spacing: 20){
+    var body: some View {
+        VStack(alignment: .center, spacing: 20) { // Align center
             Text("Login")
                 .font(.custom("AmericanTypewriter", size: 30))
                 .fontWeight(.black)
                 .padding(.horizontal)
+                .foregroundColor(.black)
             
-            TextField("Enter The Email or Phone Number", text: $Email)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+            TextField("Enter the Phone Number", text: $email)
+                 .padding()
+                 .background(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
+                 .padding()
+                 .background(Color.white.opacity(0.7))
+                 .frame(maxWidth: 400)
+         
+            
+            SecureField("Password", text: $password)
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
                 .padding(.horizontal)
-            
-            SecureField("Password", text: $Password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .background(Color.white.opacity(0.7))
+                .frame(maxWidth: 400)
+            NavigationLink(destination: ForgetPassword().navigationBarBackButtonHidden(true)) {
+                HStack {
+                    Text("Forget Your Password?")
+                        
+                    Image(systemName: "arrow.forward")
+                        .foregroundColor(.red)
+                }
+                .foregroundColor(.black)
                 .padding(.horizontal)
+              
+            }
             
-            NavigationLink(
-                destination: ForgetPassword()
-                    .navigationBarBackButtonHidden(true),
-                label: {
-                    HStack{
-                        Text("Forget Your Password?")
-                        Image(systemName: "arrow.forward")
-                            .foregroundColor(.red)
-                    }
-                    .foregroundColor(.black)
-                    .padding(.horizontal)
-                })
             Button(action: {
-                
-            }){
+                isLogged = true
+            }) {
                 Text("LOGIN")
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .fontWeight(.bold)
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(
                         RoundedRectangle(cornerRadius: 25)
-                            .fill(Color.blue)
-                            .shadow(color: .gray, radius: 2, x: 0 , y: 2)
+                            .fill(Color.yellow)
+                            .shadow(color: .white,radius: 20, x: 0, y: 2)
                     )
             }
             .padding(.horizontal)
-            }
-        .padding(.vertical)
         }
+        .padding(.vertical)
     }
+}
 
-struct signupview:  View{
-    var body: some View{
-        VStack(spacing: 20){
+
+struct SignupView: View {
+    var body: some View {
+        VStack(spacing: 20) {
             Text("Sign Up With Social Media")
             
-            HStack(spacing: 20){
-                SocialMediaButton(name: "google"){
-                    
-                }
-                SocialMediaButton(name: "facebook"){
-                    
-                }
+            HStack(spacing: 20) {
+                SocialMediaButton(name: "google") {}
+                SocialMediaButton(name: "facebook") {}
             }
         }
         .padding(.horizontal)
     }
 }
-struct SocialMediaButton: View{
+
+struct SocialMediaButton: View {
     let name: String
     let action: () -> Void
     
-    var body: some View{
-        Button(action: action){
+    var body: some View {
+        Button(action: action) {
             Image(name)
                 .resizable()
                 .frame(width: 50, height: 50)
@@ -131,12 +125,21 @@ struct SocialMediaButton: View{
         .background(Circle().stroke(Color.gray, lineWidth: 1))
     }
 }
-    struct ForgetPassword: View{
-        var body: some View{
-            Text("Forget Password")
-        }
+
+struct ForgetPassword: View {
+    var body: some View {
+        Text("Forget Password")
     }
-    #Preview {
+}
+
+//struct HomeView: View {
+//    var body: some View {
+//        Text("Home")
+//    }
+//}
+
+struct LoginView_Previews: PreviewProvider {
+    static var previews: some View {
         LoginView()
     }
-
+}

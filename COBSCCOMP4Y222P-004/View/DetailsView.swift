@@ -9,11 +9,15 @@ import SwiftUI
 
 struct DetailsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State private var rating: Int = 0
+    @State private var rating: Int = 4
     @State private var selectedSizeIndex = 0
     var selectedProduct : Items?
     @State private var quantity: Int = 1
     @State private var addedToCart = false
+    @State private var selectedColor: Color = .red
+     let colors: [Color] = [.red, .green, .blue]
+    @State private var size: String = ""
+    @State private var selectedSize: String = ""
     
     
     var totalPrice: Float {
@@ -21,51 +25,58 @@ struct DetailsView: View {
         return Float(pricePerItem * Double(quantity))
     }
     
-    let sizes = ["Small", "Medium", "X-Large"]
+    let sizes: [String] = ["S", "M", "L", "XL"]
     
     var body: some View {
         ZStack{
             LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
             
                 .ignoresSafeArea()
+         
             VStack{
-                
+             
                 ScrollView  {
-                    Image("image1")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(10)
-                        .padding(.horizontal)
-                        .shadow(color: Color.black.opacity(0.8), radius: 0, x: 0, y: 2)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color.blue.opacity(0.3), lineWidth: 10)
-                        )
-                        .edgesIgnoringSafeArea(.top)
+                    Text(selectedProduct?.Product_Name ?? "")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    
+                    HStack{
+                        Image("image1")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .cornerRadius(10)
+                            .padding(.horizontal)
+                            .shadow(color: Color.black.opacity(0.8), radius: 0, x: 0, y: 2)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(Color.blue.opacity(0.3), lineWidth: 10)
+                            )
+                            .edgesIgnoringSafeArea(.top)
+                    }
                     HStack {
                         
                         Text("Rs.\(String(format: "%.2f", selectedProduct?.Price ?? 0))")
                             .fontWeight(.semibold)
-                            .foregroundColor(.black)
+                            .foregroundColor(.red)
                             .padding(.top, 8)
                         Spacer()
                         
-                        Button(action: {
-                            // Set addedToCart to true when Add to Cart button is tapped
-                            addedToCart = true
-                        }) {
-                            Text("Add to Cart")
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                                .foregroundColor(Color.white)
-                                .padding()
-                                .padding(.horizontal, 5)
-                                .cornerRadius(5.0)
-                                .background(
-                                    Capsule()
-                                        .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.green.opacity(0.5)]), startPoint: .top, endPoint: .bottom))
-                                )
-                        }
+//                        Button(action: {
+//                            // Set addedToCart to true when Add to Cart button is tapped
+//                            addedToCart = true
+//                        }) {
+//                            Text("Add to Cart")
+//                                .font(.title3)
+//                                .fontWeight(.semibold)
+//                                .foregroundColor(Color.white)
+//                                .padding()
+//                                .padding(.horizontal, 5)
+//                                .cornerRadius(5.0)
+//                                .background(
+//                                    Capsule()
+//                                        .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.green.opacity(0.5)]), startPoint: .top, endPoint: .bottom))
+//                                )
+//                        }
                         .sheet(isPresented: $addedToCart) {
                             // Pass selectedProduct to CartView
                             CartView(selectedProduct: selectedProduct)
@@ -73,78 +84,88 @@ struct DetailsView: View {
                         }
                         
                     }
-                        Text(selectedProduct?.Product_Name ?? "")
-                            .font(.title)
-                            .fontWeight(.bold)
                         
                         
-                        HStack {
-                            Text("Rate:")
-                            ForEach(1..<6) { index in
-                                Image(systemName: index <= rating ? "star.fill" : "star")
-                                    .foregroundColor(.yellow)
-                                    .onTapGesture {
-                                        rating = index
-                                    }
-                            }
-                            Text("(\(rating))/5")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                                .padding(.leading, 8)
-                        }
-                        
-                        
-                        
+                    HStack {
+                          
+                               Text("Rate:")
+                               ForEach(1..<6) { index in
+                                   Image(systemName: index <= rating ? "star.fill" : "star")
+                                       .foregroundColor(.yellow)
+                                       .onTapGesture {
+                                           rating = index
+                                       }
+                               }
+                               Text("(\(rating))/5")
+                                   .font(.subheadline)
+                                   .foregroundColor(.gray)
+                                   .padding(.leading, 8)
+                           
+                       }
                         StepperView(quantity: $quantity)
-                        Text(selectedProduct?.Description ?? "")
-                            .fontWeight(.medium)
-                            .padding(.vertical, 8)
-                            .opacity(0.6)
-                        
-                        Spacer()
-                        
-                        HStack {
-                            
-                            
-                            Text("Rs.\(String(format: "%.2f", totalPrice))")// Display the total price
-                                .fontWeight(.semibold)
-                                .foregroundColor(.black)
-                                .padding(.top, 8)
-                        }
-                        
-                        
-                        
-                        
-                        HStack {
-                            Text("Colors:")
-                            HStack(spacing: 8) {
-                                ColorCircleView(color: .red)
-                                ColorCircleView(color: .green)
-                                ColorCircleView(color: .blue)
-                            }
-                        }
-                        
-                        
-                        
-                        Picker(selection: $selectedSizeIndex, label: Text("Size")) {
-                            ForEach(0..<sizes.count) { index in
-                                Text(sizes[index]).tag(index)
-                            }
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-                        .padding(.top, 8)
-                        
-                    }
                     
+                    
+                    VStack(alignment: .leading) {
+                        Text("Product Details")
+                            .font(.custom(Constants.AppFont.semiBoldFont, size: 18))
+                            .foregroundColor(Constants.AppColor.Black)
+                            .padding(.top, 10)
+                            .padding(.horizontal, 15)
+                        Text(selectedProduct?.Description ?? "")
+                            .font(.custom(Constants.AppFont.lightFont, size: 13))
+                            .foregroundColor(Constants.AppColor.Black)
+                            .padding(.vertical, 8)
+                            .lineSpacing(2)
+                            .padding(.horizontal, 15)
+                            .lineLimit(nil)
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .background(Color.white)
+                    .padding(.top, -3)
+                    
+                
+                        .padding(.init(top: 5, leading: 0, bottom: 10, trailing: 0))
+                    
+                        SelectColorView(selectedColor: $selectedColor, colors: colors)
+ 
+                        SelectSizeView(selectedSize: $selectedSize, sizes: sizes)
+ 
+                    }
+                    HStack {
+                             
+                               
+                               Text("Rs.\(String(format: "%.2f", totalPrice))")
+                                   .fontWeight(.semibold)
+                                   .foregroundColor(.black)
+                                   .padding(.top)
+                           }
+                Button(action: {
+                    addedToCart = true
+                }) {
+                    Text("Add To Cart")
+                        .frame(height: 45)
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .background(.yellow)
+                        .foregroundColor(.black)
+                        .cornerRadius(0)
+                       
+                }
+                .padding(.horizontal, 0)
+                .sheet(isPresented: $addedToCart) {
+                                           CartView(selectedProduct: selectedProduct)
+                                           
+                                       }
+                                       
+                                   }
                     .padding(12)
                 }
-                
-            }
            
+            }
+       
         }
         
-        
-    }
+
+    
 
         
     
@@ -157,7 +178,110 @@ struct DetailViewScreen_Previews: PreviewProvider {
         DetailsView()
     }
 }
+struct SelectColorView: View {
+    @Binding var selectedColor: Color
+    let colors: [Color]
 
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Select Color")
+                .font(.custom(Constants.AppFont.semiBoldFont, size: 18))
+                .foregroundColor(.black)
+                .padding(.top, 10)
+            
+            HStack {
+                Button(action: {
+                   
+                }) {
+                    Circle()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(Color(.red))
+                    Circle()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(Color(.green))
+                    Circle()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(Color(.blue))
+                    Circle()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(Color(.yellow))
+                }
+                
+                Spacer() // Pushes the content to the left side
+            }
+            .padding(.horizontal, 10)
+        }
+    }
+}
+struct SizeButton: View {
+    var size: String
+    var isSelected: Bool
+    var action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(size)
+                .font(.custom(Constants.AppFont.semiBoldFont, size: 13))
+                .foregroundColor(isSelected ? Constants.AppColor.Red : Constants.AppColor.Black)
+                .frame(width: 40, height: 30)
+        }
+        .overlay(
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(isSelected ? Constants.AppColor.Red : Constants.AppColor.lightBlack, lineWidth: isSelected ? 1.0 : 0.3)
+        )
+    }
+}
+struct AddToCartButton: View {
+    @State private var addedToCart = false
+    var selectedProduct : Items?
+    var body: some View {
+        Button(action: {
+            // Add action for button here
+        }) {
+            Text("Add To Cart")
+                .frame(height: 45)
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .background(.yellow)
+                .foregroundColor(.black)
+                .cornerRadius(0)
+               
+        }
+        .padding(.horizontal, 0)
+        .sheet(isPresented: $addedToCart) {
+                                   CartView(selectedProduct: selectedProduct)
+                                   
+                               }
+                               
+                           }
+    }
+
+struct SelectSizeView: View {
+    @Binding var selectedSize: String
+    let sizes: [String]
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Select Size")
+                .font(.custom(Constants.AppFont.semiBoldFont, size: 18))
+                .foregroundColor(.black)
+                .padding(.top, 10)
+            
+            HStack {
+                ForEach(sizes, id: \.self) { size in
+                    SizeButton(size: size, isSelected: selectedSize == size) {
+                        selectedSize = size
+                    }
+                }
+                Spacer()
+            }
+            .padding(.top, 15)
+            .padding(.bottom, 10)
+        }
+       
+        .background(Color.white)
+        .padding(.horizontal, 5)
+    }
+}
 
 struct ColorDotView: View {
     let color: Color
@@ -167,10 +291,6 @@ struct ColorDotView: View {
             .clipShape(Circle())
     }
 }
-
-
-
-
 
 struct BackButton: View {
     let action: () -> Void
@@ -246,25 +366,7 @@ struct StepperView: View {
             )
     }
 }
-struct BottomNavBarView2: View {
-    var body: some View {
-        HStack(spacing: 20) {
-            BottomNavBarItem(image: Image(systemName: "house.fill"), label: "Home", action: {})
-                .foregroundColor(.blue)
-            BottomNavBarItem(image: Image(systemName: "heart.fill"), label: "Favorites", action: {})
-                .foregroundColor(.gray)
-            BottomNavBarItem(image: Image(systemName: "cart.fill"), label: "Shop", action: {})
-                .foregroundColor(.gray)
-            BottomNavBarItem(image: Image(systemName: "person.fill"), label: "Profile", action: {})
-                .foregroundColor(.gray)
-        }
-        .padding(.horizontal)
-        .padding(.vertical, 10)
-        .background(Color.white)
-        .cornerRadius(20)
-        .shadow(color: Color.blue.opacity(0.8), radius: 10, x: 0, y: -5)
-    }
-}
+
 
 
 #Preview {

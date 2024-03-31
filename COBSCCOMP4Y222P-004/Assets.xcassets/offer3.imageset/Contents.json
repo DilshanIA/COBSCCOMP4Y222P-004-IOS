@@ -1,14 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "pretty-women-with-sale-writing.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "pretty-women-with-sale-writing 1.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "pretty-women-with-sale-writing 2.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }
