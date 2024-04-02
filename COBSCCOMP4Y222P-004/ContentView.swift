@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView:  View {
+struct ContentView:   View {
     @State private var Loading = false
     @State private var Login = false
     
@@ -26,8 +26,8 @@ struct ContentView:  View {
                     Text("Welcome to VogueVenue")
                         .font(.largeTitle)
                         .fontWeight(.bold)
-                        .foregroundColor(.black)
-                        .padding(.bottom, 20)
+                        .foregroundColor(.white)
+                        .padding(.top, 500)
                     
                     if Loading {
                         ProgressView()

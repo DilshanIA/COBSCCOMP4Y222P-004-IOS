@@ -11,13 +11,14 @@ import SDWebImageSwiftUI
 
 
 
-    struct MensItemsView: View {
+    struct MensItemsView:View {
         @State private var showGridView: Bool = false
         @StateObject var productVM: MensViewModel = MensViewModel()
         @State private var navigate: Bool = false
         @State private var selectedProduct: Items?
+        @State private var selectedIndex: Int = 1
         @State private var search: String = ""
-        
+        private let categories = [ "T-Shirt", "Shirt", "Jaket'", "Jeans", "Cap"]
         var body: some View {
             NavigationView{
                 ZStack{
@@ -26,7 +27,7 @@ import SDWebImageSwiftUI
                         .ignoresSafeArea()
                     VStack{
                        
-                        Text("TShirt")
+                        Text("Men’s Category")
                             .font(.largeTitle)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             .foregroundColor(.black)
@@ -73,6 +74,16 @@ import SDWebImageSwiftUI
                         .background(Color(hex: 0xCCD1D1))
                         .cornerRadius(10)
                         .padding([.leading, .trailing], 10)
+                        ScrollView (.horizontal, showsIndicators: false) {
+                            HStack {
+                                ForEach(0 ..< categories.count) { i in
+                                    Button(action: {selectedIndex = i}) {
+                                        CategoryView(isActive: selectedIndex == i, text: categories[i])
+                                    }
+                                }
+                            }
+                            .padding()
+                        }
                         getGridView(products: productVM.Products)
                         //getGridView()
                         BottomBar.BottomNavBarViewNew()
@@ -193,13 +204,25 @@ import SDWebImageSwiftUI
                 }
                 
             }
-            
-            
-            
-            
-        
+
     }
-        
+struct CategoryView1: View {
+    let isActive: Bool
+    let text: String
+    
+    var body: some View {
+        VStack(alignment: .center, spacing: 0) {
+            Text(text)
+                .font(.system(size: 18))
+                .fontWeight(.medium)
+                .foregroundColor(isActive ? .white : .black)
+                .padding(8)
+                .background(isActive ? Color.yellow: Color.clear)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .padding(.trailing)
+    }
+}
         struct MensItemsView_Previews: PreviewProvider {
             static var previews: some View {
                 MensItemsView()

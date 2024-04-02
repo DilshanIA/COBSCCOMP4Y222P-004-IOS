@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DetailsView: View {
+struct DetailsView:  View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var rating: Int = 4
     @State private var selectedSizeIndex = 0
@@ -122,7 +122,7 @@ struct DetailsView: View {
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .background(Color.white)
                     .padding(.top, -3)
-                    
+                    Divider()
                 
                         .padding(.init(top: 5, leading: 0, bottom: 10, trailing: 0))
                     
@@ -209,6 +209,7 @@ struct SelectColorView: View {
                 
                 Spacer() // Pushes the content to the left side
             }
+            Divider()
             .padding(.horizontal, 10)
         }
     }
@@ -274,6 +275,7 @@ struct SelectSizeView: View {
                 }
                 Spacer()
             }
+            Divider()
             .padding(.top, 15)
             .padding(.bottom, 10)
         }

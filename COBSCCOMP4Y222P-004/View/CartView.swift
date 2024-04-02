@@ -16,7 +16,7 @@ struct Item: Identifiable, Codable {
 
 
 struct CartView: View {
- 
+    
     var selectedProduct : Items?
     @State private var selectedItem: Item? = nil
       @State private var items: [Item] = []
@@ -41,36 +41,37 @@ struct CartView: View {
     var body: some View {
         
         
-        ScrollView {
+    
      
             VStack {
-                
-                
-                Spacer()
-                
-                Image(systemName: "cart.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 100, height: 100)
-                    .foregroundColor(.yellow)
-                
-                
-                VStack {
-                    Text("Items in My Cart:")
-                        .font(.headline)
-                        .foregroundColor(.black)
-                        .padding(.top)
-                    
-                    ForEach(items, id: \.name) { item in
-                        Button(action: {
-                            self.selectedItem = item
-                            ItemCellTypeThree(item: item)
-                        }) {
-                            ItemView(item: item)
+              
+                    ScrollView{
+                        Spacer()
+                        
+                        Image(systemName: "cart.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.yellow)
+                        
+                        
+                        VStack {
+                            Text("Items in My Cart:")
+                                .font(.headline)
+                                .foregroundColor(.black)
+                                .padding(.top)
                             
+                            ForEach(items, id: \.name) { item in
+                                Button(action: {
+                                    self.selectedItem = item
+                                    ItemCellTypeThree(item: item)
+                                }) {
+                                    ItemView(item: item)
+                                    
+                                }
+                            }
                         }
                     }
-                }
                 
                 Spacer()
                 VStack {
@@ -127,42 +128,43 @@ struct CartView: View {
                             .padding(.horizontal, 15)
                             .padding(.bottom, 5)
                             
-                            Spacer()
+                         
                         }
                         .padding(.top, 2)
-                    }
                     
-                    VStack { // New VStack containing checkout buttons
-                        HStack {
-                            Spacer()
-                            
-                            Button(action: {
+                
+                        VStack { // New VStack containing checkout buttons
+                            HStack {
+                                Spacer()
                                 
-                            }) {
-                                Text("Checkout")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .padding()
-                                    .background(Color.yellow)
-                                    .cornerRadius(10)
-                            }
-                            
-                            Spacer()
-                            
-                            Button(action: {
+                                Button(action: {
+                                    
+                                }) {
+                                    Text("Checkout")
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .background(Color.yellow)
+                                        .cornerRadius(10)
+                                }
                                 
-                            }) {
-                                Text("Cancel")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .padding()
-                                    .background(Color.gray)
-                                    .cornerRadius(10)
+                                Spacer()
+                                
+                                Button(action: {
+                                    
+                                }) {
+                                    Text("Cancel")
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .background(Color.gray)
+                                        .cornerRadius(10)
+                                }
+                                
+                                Spacer()
                             }
-                            
-                            Spacer()
+                            .padding(.bottom)
                         }
-                        .padding(.bottom)
                     }
                 }
                 .padding()
@@ -187,7 +189,7 @@ struct CartView: View {
         }
         
     
-   }
+   
 
 struct ItemCellTypeThree: View {
     var item: Item
