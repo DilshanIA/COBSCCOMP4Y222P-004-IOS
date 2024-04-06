@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct DetailsView:  View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -21,7 +22,7 @@ struct DetailsView:  View {
     
     
     var totalPrice: Float {
-        let pricePerItem = Double(selectedProduct?.Price ?? 0) ?? 0
+        let pricePerItem = Double(selectedProduct?.price ?? 0) ?? 0
         return Float(pricePerItem * Double(quantity))
     }
     
@@ -40,22 +41,30 @@ struct DetailsView:  View {
                         .font(.title)
                         .fontWeight(.bold)
                     
-                    HStack{
-                        Image("image1")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .cornerRadius(10)
-                            .padding(.horizontal)
-                            .shadow(color: Color.black.opacity(0.8), radius: 0, x: 0, y: 2)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 15)
-                                    .stroke(Color.blue.opacity(0.3), lineWidth: 10)
-                            )
-                            .edgesIgnoringSafeArea(.top)
+                    HStack {
+                        if let imageUrlString = selectedProduct?.imageurl, let imageUrl = URL(string: imageUrlString) {
+                            URLImage(imageUrl) { image in
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .cornerRadius(10)
+                                    .padding(.horizontal, 10)
+                                    .shadow(color: Color.black.opacity(0.8), radius: 0, x: 0, y: 2)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 15)
+                                            .stroke(Color.blue.opacity(0.3), lineWidth: 10)
+                                    )
+                            }
+                        } else {
+                            EmptyView()
+                        }
                     }
+
+
+
                     HStack {
                         
-                        Text("Rs.\(String(format: "%.2f", selectedProduct?.Price ?? 0))")
+                        Text("Rs.\(String(format: "%.2f", selectedProduct?.price ?? 0))")
                             .fontWeight(.semibold)
                             .foregroundColor(.red)
                             .padding(.top, 8)

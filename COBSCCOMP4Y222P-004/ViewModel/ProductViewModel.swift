@@ -15,14 +15,15 @@ class ProductViewModel :  ObservableObject {
     var cancellables = Set<AnyCancellable>()
     
     @Published var Products: [Items] = []
+
     
     init() {
         loadGetProduct()
     }
     
     func loadGetProduct() {
+    
         let apiUrlString = "https://ioscw.azurewebsites.net/products/"
-        
         guard let apiUrl = URL(string: apiUrlString) else { return }
         
         var apiUrlRequest = URLRequest(url: apiUrl)

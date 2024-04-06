@@ -12,11 +12,14 @@ struct MensModel: Codable {
 
 struct Items: Codable {
     let _id: String
+    let categoryID: String
     let id : Double
-    let Product_Name : String
-    let Subcategory_resId: String
+    let Product_Name: String
     let Description: String
-    let Price: Double
-    let Image_url: String
+    let imageurl: String
+    let price: Double
+    let Availability: Int
+    let Availablesize: [String]
+    let Availablecolor: [String]
     let __v: Int
 }

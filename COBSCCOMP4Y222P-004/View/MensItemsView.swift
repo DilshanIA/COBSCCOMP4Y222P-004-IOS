@@ -150,7 +150,7 @@ import SDWebImageSwiftUI
                         .shadow(color : .black.opacity(0.5),radius:8)
                 }
                 VStack{
-                    URLImage(URL(string: product.Image_url)!){image in image
+                    URLImage(URL(string: product.imageurl)!){image in image
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                         .frame(height: 150)}
@@ -160,7 +160,7 @@ import SDWebImageSwiftUI
                         .foregroundColor(.black)
                         .multilineTextAlignment(.center)
                     
-                    Text("\(product.Price)")
+                    Text("\(product.price)")
                         .font(.headline)
                         .foregroundColor(.red)
                         .padding(.top, 4)

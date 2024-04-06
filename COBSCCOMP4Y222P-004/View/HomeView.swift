@@ -13,7 +13,7 @@ struct HomeView: View {
     @State private var search: String = ""
     @State private var selectedIndex: Int = 1
     @State private var showGridView: Bool = false
-    @StateObject var productVM: DetailsViewModel = DetailsViewModel()
+    @StateObject var productVM: ProductViewModel = ProductViewModel()
     @State private var navigate: Bool = false
     @State private var selected: Items?
     
@@ -38,19 +38,23 @@ struct HomeView: View {
                         ScrollView (.horizontal, showsIndicators: false) {
                             HStack {
                                 ForEach(0 ..< categories.count) { i in
-                                    Button(action: {selectedIndex = i}) {
+                                    Button(action: {
+                                        // Set the selectedIndex to the current index
+                                        selectedIndex = i
+                                        // Check if the selected index is Men's category
+                                        if categories[i] == "Men's" {
+                                            // Navigate to MensItemView
+                                            // You can pass any necessary data here if needed
+                                            navigate = true
+                                        }
+                                    }) {
                                         CategoryView(isActive: selectedIndex == i, text: categories[i])
                                     }
                                 }
                             }
                             .padding()
                         }
-                        
-                      
-                        
-                      
-                  
-                        
+    
                     }
                     getGridView(products: productVM.Products)
                 }
@@ -68,11 +72,16 @@ struct HomeView: View {
                                  .foregroundColor(.black)
                          }
                      )
+            // Navigate to MensItemView when navigate is true
+            .sheet(isPresented: $navigate) {
+                MensItemsView()
+            }
         }
         
         .navigationBarHidden(true)
     }
 }
+
 struct getGridView1: View {
     var products: [Items]
     @State private var navigate: Bool = false
@@ -82,8 +91,8 @@ struct getGridView1: View {
         VStack {
             ScrollView {
                 LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
-                    ForEach(products, id: \.id) { product in
-                        ClothsItemView(product: product)
+                    ForEach(products, id: \.id) { products in
+                        ClothsItemView(product: products)
                         
                     }
                 }
@@ -113,7 +122,7 @@ struct getGridView1: View {
                 .shadow(color : .black.opacity(0.5),radius:8)
             
             VStack{
-                URLImage(URL(string: product.Image_url)!){image in image
+                URLImage(URL(string: product.imageurl)!){image in image
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                     .frame(height: 150)}
@@ -123,7 +132,7 @@ struct getGridView1: View {
                     .foregroundColor(.black)
                     .multilineTextAlignment(.center)
                 
-                Text("Rs.\(String(format: "%.2f", selectedProduct?.Price ?? 0.0))")
+                Text("Rs.\(String(format: "%.2f", selectedProduct?.price ?? 0.0))")
                     .font(.headline)
                     .foregroundColor(.red)
                     .padding(.top, 4)

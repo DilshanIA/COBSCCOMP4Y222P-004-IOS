@@ -6,3 +6,23 @@
 //
 
 import Foundation
+struct ProductModel: Codable {
+    let Products: [Items]?
+}
+
+
+struct Items: Codable {
+    let availability: Int
+    let _id: String
+    let categoryID: String
+    let Id : Double
+    let Product_Name: String
+    let Description: String
+    let imageurl: String
+    let price: Double
+    let AvailabileQty: Int
+    let Availablesize: [String]
+    let Availablecolor: [String]
+    let __v: Int
+}
+

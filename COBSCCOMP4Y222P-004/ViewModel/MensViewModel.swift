@@ -21,7 +21,7 @@ class MensViewModel :  ObservableObject {
     }
     
     func loadGetProduct() {
-        let apiUrlString = "https://ioscw.azurewebsites.net/products/subcategoryproducts/Casual Dresses"
+        let apiUrlString = "https://ioscw.azurewebsites.net/products/"
         
         guard let apiUrl = URL(string: apiUrlString) else { return }
         

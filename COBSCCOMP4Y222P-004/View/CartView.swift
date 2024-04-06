@@ -175,7 +175,7 @@ struct CartView: View {
                     
                     if let product = selectedProduct {
                         items.append(Item(name: product.Product_Name,
-                                          image: product.Image_url,
+                                          image: product.imageurl,
                                           details: product.Description,
                                           quantity: 2))
                         saveItems()
