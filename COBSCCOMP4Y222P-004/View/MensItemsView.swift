@@ -13,10 +13,11 @@ import SDWebImageSwiftUI
 
     struct MensItemsView:View {
         @State private var showGridView: Bool = false
-        @StateObject var productVM: MensViewModel = MensViewModel()
+        @StateObject var productVM: MensViewModel = MensViewModel(for: "T-Shirt")
         @State private var navigate: Bool = false
         @State private var selectedProduct: Items?
-        @State private var selectedIndex: Int = 1
+        @State private var selectedIndex: Int = 0
+        @State var selectedSubCategory: String = "T-Shirt"
         @State private var search: String = ""
         private let categories = [ "T-Shirt", "Shirt", "Jaket'", "Jeans", "Cap"]
         var body: some View {
@@ -74,19 +75,22 @@ import SDWebImageSwiftUI
                         .background(Color(hex: 0xCCD1D1))
                         .cornerRadius(10)
                         .padding([.leading, .trailing], 10)
-                        ScrollView (.horizontal, showsIndicators: false) {
-                            HStack {
-                                ForEach(0 ..< categories.count) { i in
-                                    Button(action: {selectedIndex = i}) {
-                                        CategoryView(isActive: selectedIndex == i, text: categories[i])
-                                    }
-                                }
-                            }
-                            .padding()
-                        }
+                        ScrollView(.horizontal, showsIndicators: false) {
+                                                 HStack {
+                                                     ForEach(categories, id: \.self) { category in
+                                                         Button(action: {
+                                                             selectedSubCategory = category
+                                                             productVM.loadGetProduct(for: selectedSubCategory)
+                                                         }) {
+                                                             CategoryView(isActive: selectedSubCategory == category, text: category)
+                                                         }
+                                                     }
+                                                 }
+                                                 .padding()
+                                             }
                         getGridView(products: productVM.Products)
                         //getGridView()
-                        BottomBar.BottomNavBarViewNew()
+                        MenuBar()
                         
                     }
                 }
@@ -150,17 +154,17 @@ import SDWebImageSwiftUI
                         .shadow(color : .black.opacity(0.5),radius:8)
                 }
                 VStack{
-                    URLImage(URL(string: product.imageurl)!){image in image
+                    URLImage(URL(string: product.Image_url)!){image in image
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                         .frame(height: 150)}
                     
-                    Text(product.Product_Name)
+                    Text(product.Product_name)
                         .font(.headline)
                         .foregroundColor(.black)
                         .multilineTextAlignment(.center)
                     
-                    Text("\(product.price)")
+                    Text("\(product.Price)")
                         .font(.headline)
                         .foregroundColor(.red)
                         .padding(.top, 4)

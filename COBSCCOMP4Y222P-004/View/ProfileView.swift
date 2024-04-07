@@ -9,16 +9,19 @@ import SwiftUI
 
 struct ProfileView: View {
     var body: some View {
-        VStack {
-            ProfilePicture()
-                .padding()
+        NavigationView{
+            VStack {
+                ProfilePicture()
+                
+                UserInfo()
+                
+                Spacer()
+                MenuBar()
+            }
             
-            UserInfo()
-            BottomBar.BottomNavBarViewNew()
-            Spacer()
-        }
-       
-    }
+            
+        }}
+   
  
 }
 

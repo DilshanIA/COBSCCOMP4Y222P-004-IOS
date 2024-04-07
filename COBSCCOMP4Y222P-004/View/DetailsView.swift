@@ -22,7 +22,7 @@ struct DetailsView:  View {
     
     
     var totalPrice: Float {
-        let pricePerItem = Double(selectedProduct?.price ?? 0) ?? 0
+        let pricePerItem = Double(selectedProduct?.Price ?? 0) ?? 0
         return Float(pricePerItem * Double(quantity))
     }
     
@@ -37,12 +37,12 @@ struct DetailsView:  View {
             VStack{
              
                 ScrollView  {
-                    Text(selectedProduct?.Product_Name ?? "")
+                    Text(selectedProduct?.Product_name ?? "")
                         .font(.title)
                         .fontWeight(.bold)
                     
                     HStack {
-                        if let imageUrlString = selectedProduct?.imageurl, let imageUrl = URL(string: imageUrlString) {
+                        if let imageUrlString = selectedProduct?.Image_url, let imageUrl = URL(string: imageUrlString) {
                             URLImage(imageUrl) { image in
                                 image
                                     .resizable()
@@ -64,7 +64,7 @@ struct DetailsView:  View {
 
                     HStack {
                         
-                        Text("Rs.\(String(format: "%.2f", selectedProduct?.price ?? 0))")
+                        Text("Rs.\(String(format: "%.2f", selectedProduct?.Price ?? 0))")
                             .fontWeight(.semibold)
                             .foregroundColor(.red)
                             .padding(.top, 8)
@@ -160,28 +160,21 @@ struct DetailsView:  View {
                        
                 }
                 .padding(.horizontal, 0)
-                .sheet(isPresented: $addedToCart) {
-                                           CartView(selectedProduct: selectedProduct)
-                                           
-                                       }
-                                       
+//                .sheet(isPresented: $addedToCart) {
+//                                           CartView(selectedProduct: selectedProduct)
+//                                           
+//                                       }
+                 MenuBar()
                                    }
-                    .padding(12)
+                    
+            .navigationBarHidden(true)
                 }
-           
+          
+     
             }
-       
+    
         }
         
-
-    
-
-        
-    
-
-
-
-
 struct DetailViewScreen_Previews: PreviewProvider {
     static var previews: some View {
         DetailsView()

@@ -10,16 +10,19 @@ struct MensModel: Codable {
     let Products: [Items]?
 }
 
-struct Items: Codable {
-    let _id: String
-    let categoryID: String
-    let id : Double
-    let Product_Name: String
-    let Description: String
-    let imageurl: String
-    let price: Double
-    let Availability: Int
-    let Availablesize: [String]
-    let Availablecolor: [String]
-    let __v: Int
+struct Items:Codable {
+  let _id: String
+    let subcategoryID:String
+    let Product_name: String
+    let id: Int
+    let Description:String
+    let Image_url: String
+    let Price: Double
+    let Availability:Int
+    let Tags:[String]
+    let availablesize:[String]
+    let availablecolor:[String]
+    let __v : Int
 }
+
+

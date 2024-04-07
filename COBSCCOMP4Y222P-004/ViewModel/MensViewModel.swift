@@ -16,14 +16,21 @@ class MensViewModel :  ObservableObject {
     
     @Published var Products: [Items] = []
     
-    init() {
-        loadGetProduct()
-    }
-    
-    func loadGetProduct() {
-        let apiUrlString = "https://ioscw.azurewebsites.net/products/"
+//    init() {
+//        loadGetProduct()
+//    }
+//    
+    init(for subcategory: String = "T-Shirt")
+          {
+              loadGetProduct(for: subcategory)
+          }
+
+    func loadGetProduct(for subcategory: String)
+    {
+
+    let getApiUrlString = "https://cobsccomp4y222p-004-ios-cw-api-1gz1.onrender.com/products/category/name/\(subcategory)"
         
-        guard let apiUrl = URL(string: apiUrlString) else { return }
+        guard let apiUrl = URL(string: getApiUrlString) else { return }
         
         var apiUrlRequest = URLRequest(url: apiUrl)
         

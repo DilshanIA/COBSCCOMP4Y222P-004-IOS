@@ -47,12 +47,12 @@ struct ContentView:   View {
                     Login = true
                 }
             }
-//            .background(
-//                NavigationLink(destination: HomeView(), isActive: $Login) {
-//                    EmptyView()
-//                }
-//                .hidden()
-//            )
+            .background(
+                NavigationLink(destination: HomeView(), isActive: $Login) {
+                    EmptyView()
+                }
+                .hidden()
+            )
        
         }
     }

@@ -11,25 +11,25 @@ import SDWebImageSwiftUI
 
 struct HomeView: View {
     @State private var search: String = ""
-    @State private var selectedIndex: Int = 1
+    @State private var selectedIndex: Int = 0
     @State private var showGridView: Bool = false
     @StateObject var productVM: ProductViewModel = ProductViewModel()
     @State private var navigate: Bool = false
     @State private var selected: Items?
     
-    private let categories = [ "Men's", "Women's", "Kids'", "Shoes", "Accessories"]
+    private let categories = [ "Men", "Women", "Kids", "Family", "Accessories"]
     
     var body: some View {
-        NavigationView {
+       
             ZStack {
                 LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)), Color.white]), startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
-                
-                ScrollView (showsIndicators: false) {
+                NavigationView {
+                ScrollView (showsIndicators: true) {
                     VStack (alignment: .leading) {
                         //TagLineView()
-                      
-                   
+                
+
                         SearchAndScanView(search: $search)
                         OfferPhotosView()
                             .padding(.bottom)
@@ -42,9 +42,8 @@ struct HomeView: View {
                                         // Set the selectedIndex to the current index
                                         selectedIndex = i
                                         // Check if the selected index is Men's category
-                                        if categories[i] == "Men's" {
-                                            // Navigate to MensItemView
-                                            // You can pass any necessary data here if needed
+                                        if categories[i] == "Men" {
+                                          
                                             navigate = true
                                         }
                                     }) {
@@ -54,7 +53,9 @@ struct HomeView: View {
                             }
                             .padding()
                         }
-    
+                        NavigationLink(destination: MensItemsView(), isActive: $navigate) {
+                                                    EmptyView()
+                                                }
                     }
                     getGridView(products: productVM.Products)
                 }
@@ -63,7 +64,7 @@ struct HomeView: View {
                 VStack {
                     Spacer()
                    
-                    BottomBar.BottomNavBarViewNew()
+                    MenuBar()
                 }
             }
             .navigationBarItems(trailing:
@@ -72,10 +73,7 @@ struct HomeView: View {
                                  .foregroundColor(.black)
                          }
                      )
-            // Navigate to MensItemView when navigate is true
-            .sheet(isPresented: $navigate) {
-                MensItemsView()
-            }
+
         }
         
         .navigationBarHidden(true)
@@ -119,20 +117,20 @@ struct getGridView1: View {
             RoundedRectangle (cornerRadius: 10)
                 .frame(width:180, height:300)
                 .foregroundColor(.white)
-                .shadow(color : .black.opacity(0.5),radius:8)
+                .shadow(color : .black.opacity(10),radius:8)
             
             VStack{
-                URLImage(URL(string: product.imageurl)!){image in image
+                URLImage(URL(string: product.Image_url)!){image in image
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                     .frame(height: 150)}
                 
-                Text(product.Product_Name)
+                Text(product.Product_name)
                     .font(.headline)
                     .foregroundColor(.black)
                     .multilineTextAlignment(.center)
                 
-                Text("Rs.\(String(format: "%.2f", selectedProduct?.price ?? 0.0))")
+                Text("Rs.\(String(format: "%.2f", selectedProduct?.Price ?? 0.0))")
                     .font(.headline)
                     .foregroundColor(.red)
                     .padding(.top, 4)
@@ -142,6 +140,7 @@ struct getGridView1: View {
                     ForEach(0..<5){ _ in
                         Image(systemName: "star.fill")
                             .foregroundColor(.yellow)
+                            .shadow(color: Color.yellow.opacity(20), radius: 5, x: 0, y: 2)
                     }
                 }
                 HStack(spacing: 10) {
@@ -159,12 +158,12 @@ struct getGridView1: View {
                                 navigate = true
                             }) {
                                 Image(systemName: "cart.fill")
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(.yellow)
                                     .padding()
                             }
                             .background(Color.white)
                             .clipShape(Circle())
-                            .shadow(color: Color.blue.opacity(0.8), radius: 3, x: 0, y: 2)
+                            .shadow(color: Color.yellow.opacity(0.8), radius: 3, x: 0, y: 2)
                         }
              
               
