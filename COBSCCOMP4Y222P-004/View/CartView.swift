@@ -12,6 +12,7 @@ struct Item: Identifiable, Codable {
     var image: String
     var details: String
     var quantity: Int
+    var price: Double
 }
 
 
@@ -55,7 +56,8 @@ struct CartView: View {
             items.append(Item(name: product.Product_name,
                                image: product.Image_url,
                                details: product.Description,
-                               quantity: 1))
+                               quantity: 1,
+                              price: product.Price))
         }
         
         saveItems()
@@ -187,17 +189,18 @@ struct CartView: View {
                             .padding(.bottom)
                         }
                     }
+                    MenuBar()
                 }
-                .padding()
+               
             }
-                
+              
                 .onAppear {
                         loadItems()
                      addItemToCart()
                                 
                     
                 }
-               
+      
             }
         
         }
@@ -277,9 +280,10 @@ struct ItemView: View {
                         .font(.subheadline)
                         .foregroundColor(.gray)
                     
-                    Text(item.details)
+                    Text("\(item.price)")
                         .font(.subheadline)
                         .foregroundColor(.gray)
+
                     HStack {
                         Spacer()
                         
