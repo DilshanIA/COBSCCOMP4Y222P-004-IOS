@@ -15,10 +15,13 @@ struct DetailsView:  View {
     var selectedProduct : Items?
     @State private var quantity: Int = 1
     @State private var addedToCart = false
-    @State private var selectedColor: Color = .red
-     let colors: [Color] = [.red, .green, .blue]
     @State private var size: String = ""
     @State private var selectedSize: String = ""
+    @State private var selectedColor: String = ""
+
+    @State private var sizeSelected: Bool = false
+    @State private var colorSelected: Bool = false
+
     
     
     var totalPrice: Float {
@@ -27,6 +30,13 @@ struct DetailsView:  View {
     }
     
     let sizes: [String] = ["S", "M", "L", "XL"]
+    
+    struct CartItem {
+        let product: Items
+        var quantity: Int
+    }
+    @State private var cartItems: [CartItem] = []
+
     
     var body: some View {
         ZStack{
@@ -59,9 +69,6 @@ struct DetailsView:  View {
                             EmptyView()
                         }
                     }
-
-
-
                     HStack {
                         
                         Text("Rs.\(String(format: "%.2f", selectedProduct?.Price ?? 0))")
@@ -69,49 +76,25 @@ struct DetailsView:  View {
                             .foregroundColor(.red)
                             .padding(.top, 8)
                         Spacer()
+                    }
+                    
+                    HStack {
                         
-//                        Button(action: {
-//                            // Set addedToCart to true when Add to Cart button is tapped
-//                            addedToCart = true
-//                        }) {
-//                            Text("Add to Cart")
-//                                .font(.title3)
-//                                .fontWeight(.semibold)
-//                                .foregroundColor(Color.white)
-//                                .padding()
-//                                .padding(.horizontal, 5)
-//                                .cornerRadius(5.0)
-//                                .background(
-//                                    Capsule()
-//                                        .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.green.opacity(0.5)]), startPoint: .top, endPoint: .bottom))
-//                                )
-//                        }
-                        .sheet(isPresented: $addedToCart) {
-                            // Pass selectedProduct to CartView
-                            CartView(selectedProduct: selectedProduct)
-                            
+                        Text("Rate:")
+                        ForEach(1..<6) { index in
+                            Image(systemName: index <= rating ? "star.fill" : "star")
+                                .foregroundColor(.yellow)
+                                .onTapGesture {
+                                    rating = index
+                                }
                         }
+                        Text("(\(rating))/5")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .padding(.leading, 8)
                         
                     }
-                        
-                        
-                    HStack {
-                          
-                               Text("Rate:")
-                               ForEach(1..<6) { index in
-                                   Image(systemName: index <= rating ? "star.fill" : "star")
-                                       .foregroundColor(.yellow)
-                                       .onTapGesture {
-                                           rating = index
-                                       }
-                               }
-                               Text("(\(rating))/5")
-                                   .font(.subheadline)
-                                   .foregroundColor(.gray)
-                                   .padding(.leading, 8)
-                           
-                       }
-                        StepperView(quantity: $quantity)
+                    StepperView(quantity: $quantity)
                     
                     
                     VStack(alignment: .leading) {
@@ -132,14 +115,81 @@ struct DetailsView:  View {
                     .background(Color.white)
                     .padding(.top, -3)
                     Divider()
-                
+                    
                         .padding(.init(top: 5, leading: 0, bottom: 10, trailing: 0))
                     
-                        SelectColorView(selectedColor: $selectedColor, colors: colors)
- 
-                        SelectSizeView(selectedSize: $selectedSize, sizes: sizes)
- 
+                    //                        SelectColorView(selectedColor: $selectedColor, colors: colors)
+                    //
+                    //                        SelectSizeView(selectedSize: $selectedSize, sizes: sizes)
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Select Your Size")
+                            .font(.headline)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black)
+                        
+                        if let sizes = selectedProduct?.availablesize {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 16) {
+                                    ForEach(sizes, id: \.self) { size in
+                                        Button(action: {
+                                            selectedSize = size
+                                            sizeSelected = true
+                                        }) {
+                                            Text(size)
+                                                .foregroundColor(selectedSize == size ? .white : .black)
+                                                .padding(.vertical, 8)
+                                                .padding(.horizontal, 16)
+                                                .background(
+                                                    LinearGradient(
+                                                        gradient: Gradient(colors: [Color.blue.opacity(selectedSize == size ? 1.0 : 0.8), Color.blue.opacity(selectedSize == size ? 0.8 : 0.6)]),
+                                                        startPoint: .topLeading,
+                                                        endPoint: .bottomTrailing
+                                                    )
+                                                )
+                                                .cornerRadius(20)
+                                                .shadow(color: Color.blue.opacity(selectedSize == size ? 0.4 : 0), radius: 5, x: 0, y: 2)
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Select Your Color")
+                            .font(.headline)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black)
+                        
+                        if let colors = selectedProduct?.availablecolor {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 16) {
+                                    ForEach(colors, id: \.self) { color in
+                                        Button(action: {
+                                            selectedColor = color
+                                            sizeSelected = true
+                                        }) {
+                                            Text(size)
+                                                .foregroundColor(selectedSize == color ? .white : .black)
+                                                .padding(.vertical, 8)
+                                                .padding(.horizontal, 16)
+                                                .background(
+                                                    LinearGradient(
+                                                        gradient: Gradient(colors: [Color.blue.opacity(selectedSize == color ? 1.0 : 0.8), Color.blue.opacity(selectedSize == color ? 0.8 : 0.6)]),
+                                                        startPoint: .topLeading,
+                                                        endPoint: .bottomTrailing
+                                                    )
+                                                )
+                                                .cornerRadius(20)
+                                                .shadow(color: Color.yellow.opacity(selectedSize == color ? 0.4 : 0), radius: 5, x: 0, y: 2)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                     HStack {
                              
                                
@@ -149,21 +199,31 @@ struct DetailsView:  View {
                                    .padding(.top)
                            }
                 Button(action: {
-                    addedToCart = true
+                    if let selectedProduct = selectedProduct {
+                        let cartItem = CartItem(product: selectedProduct, quantity: quantity)
+                        cartItems.append(cartItem)
+                       
+                        addedToCart = true
+                    }
                 }) {
                     Text("Add To Cart")
                         .frame(height: 45)
                         .frame(minWidth: 0, maxWidth: .infinity)
-                        .background(.yellow)
+                        .background(Color.yellow)
                         .foregroundColor(.black)
                         .cornerRadius(0)
-                       
                 }
                 .padding(.horizontal, 0)
-//                .sheet(isPresented: $addedToCart) {
-//                                           CartView(selectedProduct: selectedProduct)
-//                                           
-//                                       }
+                .sheet(isPresented: $addedToCart) {
+                                           CartView(selectedProduct: selectedProduct)
+                                           
+                                       }
+                                       
+                .alert(isPresented: $addedToCart) {
+                    Alert(title: Text("Item Added"), message: Text("The item has been added to the cart."), dismissButton: .default(Text("OK")))
+                }
+
+
                  MenuBar()
                                    }
                     
@@ -209,7 +269,7 @@ struct SelectColorView: View {
                         .foregroundColor(Color(.yellow))
                 }
                 
-                Spacer() // Pushes the content to the left side
+                Spacer()
             }
             Divider()
             .padding(.horizontal, 10)

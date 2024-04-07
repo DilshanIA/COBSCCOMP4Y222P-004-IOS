@@ -35,15 +35,22 @@ struct HomeView: View {
                             .padding(.bottom)
                        
                         
-                        ScrollView (.horizontal, showsIndicators: false) {
+                        ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
                                 ForEach(0 ..< categories.count) { i in
                                     Button(action: {
-                                        // Set the selectedIndex to the current index
+                                     
                                         selectedIndex = i
-                                        // Check if the selected index is Men's category
+                                    
                                         if categories[i] == "Men" {
+                                           
+                                            navigate = true
+                                        } else if categories[i] == "Women" {
                                           
+                                            navigate = true
+                                        }
+                                        else if categories[i] == "Kids" {
+                                           
                                             navigate = true
                                         }
                                     }) {
@@ -53,9 +60,16 @@ struct HomeView: View {
                             }
                             .padding()
                         }
+
                         NavigationLink(destination: MensItemsView(), isActive: $navigate) {
                                                     EmptyView()
                                                 }
+                        NavigationLink(destination: WomenItemView(), isActive: $navigate) {
+                            EmptyView()
+                        }
+                        NavigationLink(destination: KidsItemView(), isActive: $navigate) {
+                            EmptyView()
+                        }
                     }
                     getGridView(products: productVM.Products)
                 }
@@ -130,10 +144,11 @@ struct getGridView1: View {
                     .foregroundColor(.black)
                     .multilineTextAlignment(.center)
                 
-                Text("Rs.\(String(format: "%.2f", selectedProduct?.Price ?? 0.0))")
+                Text("Rs.\(String(format: "%.2f", selectedProduct?.Price ?? 0.00))")
                     .font(.headline)
                     .foregroundColor(.red)
                     .padding(.top, 4)
+
                 
                 
                 HStack{
@@ -153,14 +168,10 @@ struct getGridView1: View {
                     .clipShape(Circle())
                     .shadow(color: Color.red.opacity(0.8), radius: 3, x: 0, y: 2)
                            
-                            Button(action: {
-                         
-                                navigate = true
-                            }) {
-                                Image(systemName: "cart.fill")
-                                    .foregroundColor(.yellow)
-                                    .padding()
-                            }
+                    Button(action: {}) {
+                        Image(systemName: "cart.fill")
+                            .foregroundColor(.yellow)
+                    }
                             .background(Color.white)
                             .clipShape(Circle())
                             .shadow(color: Color.yellow.opacity(0.8), radius: 3, x: 0, y: 2)

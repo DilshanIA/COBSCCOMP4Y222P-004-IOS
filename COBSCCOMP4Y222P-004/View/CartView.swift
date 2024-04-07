@@ -21,6 +21,7 @@ struct CartView: View {
     @State private var selectedItem: Item? = nil
       @State private var items: [Item] = []
     
+   
     private func saveItems() {
            let encoder = JSONEncoder()
            if let encoded = try? encoder.encode(items) {
@@ -28,7 +29,6 @@ struct CartView: View {
            }
        }
 
-   
        private func loadItems() {
            if let data = UserDefaults.standard.data(forKey: "cartItems") {
                let decoder = JSONDecoder()
@@ -38,11 +38,32 @@ struct CartView: View {
            }
        }
     
-    var body: some View {
-        
-        
+    private func removeItem(at index: Int) {
+            items.remove(at: index)
+            saveItems()
+        }
     
-     
+    private func addItemToCart() {
+        guard let product = selectedProduct else { return }
+        
+        // Check if the product already exists in the cart
+        if let existingItemIndex = items.firstIndex(where: { $0.name == product.Product_name }) {
+            // Product already exists, update quantity
+            items[existingItemIndex].quantity += 1
+        } else {
+            // Product doesn't exist, add it to the cart
+            items.append(Item(name: product.Product_name,
+                               image: product.Image_url,
+                               details: product.Description,
+                               quantity: 1))
+        }
+        
+        saveItems()
+    }
+    
+    
+    var body: some View {
+
             VStack {
               
                     ScrollView{
@@ -61,16 +82,25 @@ struct CartView: View {
                                 .foregroundColor(.black)
                                 .padding(.top)
                             
-                            ForEach(items, id: \.name) { item in
+                            ForEach(items.indices, id: \.self) { index in
                                 Button(action: {
-                                    self.selectedItem = item
-                                    ItemCellTypeThree(item: item)
+                                    self.selectedItem = items[index]
                                 }) {
-                                    ItemView(item: item)
+                                    ItemView(item: items[index])
+                                }
+                                Button(action: {
                                     
+                                    items.remove(at: index)
+                                   
+                                    saveItems()
+                                }) {
+                                    Image(systemName: "trash")
+                                        .foregroundColor(.red)
                                 }
                             }
                         }
+                            
+                        
                     }
                 
                 Spacer()
@@ -101,17 +131,8 @@ struct CartView: View {
                             .padding(.top, 5)
                             .padding(.horizontal, 15)
                             
-                            HStack {
-                                Text("Discount")
-                                    .font(.custom(Constants.AppFont.regularFont, size: 13))
-                                    .foregroundColor(Constants.AppColor.Black)
-                                Spacer()
-                                Text("10%")
-                                    .font(.custom(Constants.AppFont.boldFont, size: 13))
-                                    .foregroundColor(Color.init(hex: "036440"))
-                            }
-                            .padding(.top, 5)
-                            .padding(.horizontal, 15)
+                         
+                            
                             
                             
                             .padding(.vertical, 5)
@@ -130,10 +151,10 @@ struct CartView: View {
                             
                          
                         }
-                        .padding(.top, 2)
+                         .padding(.top, 2)
                     
                 
-                        VStack { // New VStack containing checkout buttons
+                        VStack {
                             HStack {
                                 Spacer()
                                 
@@ -169,27 +190,19 @@ struct CartView: View {
                 }
                 .padding()
             }
+                
                 .onAppear {
-                    loadItems()
-                    
-                    
-                    if let product = selectedProduct {
-                        items.append(Item(name: product.Product_name,
-                                          image: product.Image_url,
-                                          details: product.Description,
-                                          quantity: 2))
-                        saveItems()
-                        
-                    }
+                        loadItems()
+                     addItemToCart()
+                                
                     
                 }
                
             }
         
         }
-        
-    
-   
+
+
 
 struct ItemCellTypeThree: View {
     var item: Item
@@ -238,26 +251,32 @@ struct ItemCellTypeThree: View {
 }
 
 struct ItemView: View {
+
+
+    var selectedProduct : Items?
+  
     var item: Item
     @State private var quantity: Int = 1
     
     var body: some View {
         HStack {
             HStack{
-            Image("Image3")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 100, height: 100)
+                Image("Image3")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 100, height: 100)
                 VStack{
                     HStack{
                         Text(item.name)
                             .font(.headline)
                         Spacer()
-                        Image(systemName: "trash")
-                            .foregroundColor(Color.black)
-                            .padding(.top, 5)
+       
                     }
                     Spacer()
+                    Text(item.details)
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                    
                     Text(item.details)
                         .font(.subheadline)
                         .foregroundColor(.gray)
@@ -284,8 +303,11 @@ struct ItemView: View {
                             Image(systemName: "plus.circle")
                                 .font(.title)
                         }
+                        
                         .padding()
+                        
                     }
+                    
                 }
             }
             .padding()
@@ -295,8 +317,9 @@ struct ItemView: View {
             .padding()
             
             Spacer()
-          
+            
         }
+        
         .frame(maxWidth: .infinity)
     }
 }
